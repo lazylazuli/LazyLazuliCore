@@ -54,6 +54,7 @@ public final class Registry
 				Block block = ((ItemBlock) item).getBlock();
 				
 				GameRegistry.register(block);
+				GameRegistry.register(item, block.getRegistryName());
 				
 				String name = block.getUnlocalizedName()
 								   .substring(5);
@@ -77,7 +78,6 @@ public final class Registry
 						log.debug("\t\t" + sb.toString());
 						
 						ModelResourceLocation resourceLocation = new ModelResourceLocation(sb.toString(), "inventory");
-						GameRegistry.register(item, resourceLocation);
 						
 						if (event.getSide() == Side.CLIENT)
 						{
