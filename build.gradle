@@ -12,9 +12,10 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 def modid = "lazylazulilib"
 def modname = "Lazy Lazuli Lib"
-def modversion = "1.0.0"
+def modversion = "1.0.1"
 def mcversion = "1.11.2"
 def forgeversion = "13.20.0.2228"
+def modfile = "LazyLazuliLib.java"
 
 version = mcversion + "-" + modversion
 group = "com.github.lazylazuli.lazylazulilib"
@@ -33,7 +34,7 @@ minecraft {
 
 	replace '@version@', modversion
 	replace '@mcversion@', project.minecraft.version
-	replaceIn 'LazyLazuliLib.java'
+	replaceIn modfile
 }
 
 processResources {
