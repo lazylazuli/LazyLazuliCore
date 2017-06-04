@@ -62,24 +62,25 @@ public final class Registry
 				
 				if (item instanceof ItemColored)
 				{
-					if (event.getSide() == Side.CLIENT)
+					log.debug("\t...setting colored model resources");
+					
+					for (int i = 0; i < 16; i++)
 					{
-						log.info("\t...setting colored model resources");
+						StringBuilder sb = new StringBuilder();
+						sb.append(modId)
+						  .append(":")
+						  .append(name)
+						  .append("_")
+						  .append(EnumDyeColor.byMetadata(i)
+											  .getUnlocalizedName());
 						
-						for (int i = 0; i < 16; i++)
+						log.debug("\t\t" + sb.toString());
+						
+						ModelResourceLocation resourceLocation = new ModelResourceLocation(sb.toString(), "inventory");
+						GameRegistry.register(item, resourceLocation);
+						
+						if (event.getSide() == Side.CLIENT)
 						{
-							StringBuilder sb = new StringBuilder();
-							sb.append(modId)
-							  .append(":")
-							  .append(name)
-							  .append("_")
-							  .append(EnumDyeColor.byMetadata(i)
-												  .getUnlocalizedName());
-							
-							log.info("\t\t" + sb.toString());
-							
-							ModelResourceLocation resourceLocation = new ModelResourceLocation(sb.toString(),
-									"inventory");
 							ModelLoader.setCustomModelResourceLocation(item, i, resourceLocation);
 						}
 					}
