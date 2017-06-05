@@ -36,9 +36,9 @@ public final class Registry
 		{
 			@Nonnull
 			@Override
-			public ItemStack getTabIconItem()
+			public Item getTabIconItem()
 			{
-				return icon;
+				return icon.getItem();
 			}
 		};
 	}

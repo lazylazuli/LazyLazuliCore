@@ -46,11 +46,16 @@ public final class Stack
 		return new ItemStack(item, 1, meta);
 	}
 	
+	public static boolean isEmpty(ItemStack stack)
+	{
+		return stack == null || stack.stackSize == 0;
+	}
+	
 	public static boolean canCombine(ItemStack stack1, ItemStack stack2)
 	{
 		if (stack1.getItem() == stack2.getItem())
 			if (stack1.getMetadata() == stack2.getMetadata())
-				if (stack1.getCount() <= stack1.getMaxStackSize())
+				if (stack1.stackSize <= stack1.getMaxStackSize())
 					if (ItemStack.areItemStackTagsEqual(stack1, stack2))
 						return true;
 		return false;

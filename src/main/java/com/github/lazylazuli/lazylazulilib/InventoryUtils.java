@@ -117,8 +117,7 @@ public final class InventoryUtils
 	
 	public static boolean isInventorySlotEmpty(IInventory inv, int index)
 	{
-		return inv.getStackInSlot(index)
-				  .isEmpty();
+		return Stack.isEmpty(inv.getStackInSlot(index));
 	}
 	
 	public static boolean isInventoryFull(IInventory inv)
@@ -160,8 +159,8 @@ public final class InventoryUtils
 	public static boolean isInventorySlotFull(IInventory inv, int index)
 	{
 		ItemStack stack = inv.getStackInSlot(index);
-		return !stack.isEmpty() && (stack.getCount() >= Math.min(inv.getInventoryStackLimit(), stack.getMaxStackSize
-				()));
+		return !Stack.isEmpty(stack) && (stack.stackSize >= Math.min(inv.getInventoryStackLimit(), stack
+				.getMaxStackSize()));
 	}
 	
 	public static boolean canInsertItemInSlot(IInventory inv, ItemStack stack, int index, EnumFacing side)
@@ -202,7 +201,7 @@ public final class InventoryUtils
 			ISidedInventory isidedinventory = (ISidedInventory) inv;
 			int[] aint = isidedinventory.getSlotsForFace(side);
 			
-			for (int i = 0; i < aint.length && !stack.isEmpty(); ++i)
+			for (int i = 0; i < aint.length && !Stack.isEmpty(stack); ++i)
 			{
 				stackInserted = insertStack(inv, stack, aint[i], side);
 			}
@@ -210,7 +209,7 @@ public final class InventoryUtils
 		{
 			int size = inv.getSizeInventory();
 			
-			for (int i = 0; i < size && !stack.isEmpty(); ++i)
+			for (int i = 0; i < size && !Stack.isEmpty(stack); ++i)
 			{
 				stackInserted = insertStack(inv, stack, i, side);
 			}
@@ -234,10 +233,10 @@ public final class InventoryUtils
 		
 		if (canInsertItemInSlot(inv, stack, index, side))
 		{
-			if (stackInSlot.isEmpty())
+			if (Stack.isEmpty(stackInSlot))
 			{
 				inv.setInventorySlotContents(index, stack.copy());
-				stack.setCount(0);
+				stack.stackSize = 0;
 				stackInserted = true;
 			} else if (Stack.canCombine(stackInSlot, stack))
 			{
@@ -245,9 +244,9 @@ public final class InventoryUtils
 				
 				if (spaceLeft > 0)
 				{
-					int i = Math.min(stack.getCount(), spaceLeft);
-					stack.shrink(i);
-					stackInSlot.grow(i);
+					int i = Math.min(stack.stackSize, spaceLeft);
+					stack.stackSize -= i;
+					stackInSlot.stackSize += i;
 					stackInserted = i > 0;
 				}
 			}
@@ -268,6 +267,6 @@ public final class InventoryUtils
 	{
 		ItemStack stack = inv.getStackInSlot(index);
 		
-		return Math.min(stack.getMaxStackSize(), inv.getInventoryStackLimit()) - stack.getCount();
+		return Math.min(stack.getMaxStackSize(), inv.getInventoryStackLimit()) - stack.stackSize;
 	}
 }

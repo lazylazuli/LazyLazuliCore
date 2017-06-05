@@ -13,8 +13,8 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 def modid = "lazylazulilib"
 def modname = "Lazy Lazuli Lib"
 def modversion = "1.1.1"
-def mcversion = "1.11.2"
-def forgeversion = "13.20.0.2228"
+def mcversion = "1.10.2"
+def forgeversion = "12.18.3.2185"
 def modfile = "LazyLazuliLib.java"
 
 version = mcversion + "-" + modversion
