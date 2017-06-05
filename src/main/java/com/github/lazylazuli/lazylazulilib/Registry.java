@@ -49,6 +49,8 @@ public final class Registry
 		
 		for (Item item : items)
 		{
+			String name;
+			
 			if (item instanceof ItemBlock)
 			{
 				Block block = ((ItemBlock) item).getBlock();
@@ -56,8 +58,8 @@ public final class Registry
 				GameRegistry.register(block);
 				GameRegistry.register(item, block.getRegistryName());
 				
-				String name = block.getUnlocalizedName()
-								   .substring(5);
+				name = block.getUnlocalizedName()
+							.substring(5);
 				
 				log.info("\t" + modId + ":" + name);
 				
@@ -89,8 +91,10 @@ public final class Registry
 			{
 				GameRegistry.register(item);
 				
-				log.info("\t" + modId + ":" + item.getUnlocalizedName()
-												  .substring(5));
+				name = item.getUnlocalizedName()
+						   .substring(5);
+				
+				log.info("\t" + modId + ":" + name);
 				
 				if (event.getSide() == Side.CLIENT)
 				{
@@ -102,9 +106,18 @@ public final class Registry
 	
 	public void registerBlocks(FMLPreInitializationEvent event, Block... blocks)
 	{
+		log.info("Registering blocks...");
+		
 		for (Block block : blocks)
 		{
 			GameRegistry.register(block);
+			GameRegistry.register(new ItemBlock(block), block.getRegistryName());
+			
+			String name = block.getUnlocalizedName()
+							   .substring(5);
+			
+			log.info("\t" + modId + ":" + name);
+			
 			if (event.getSide() == Side.CLIENT)
 			{
 				registerCustomModelLocation(block);
