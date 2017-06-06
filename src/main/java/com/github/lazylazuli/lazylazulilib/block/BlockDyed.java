@@ -1,9 +1,9 @@
 package com.github.lazylazuli.lazylazulilib.block;
 
 import com.github.lazylazuli.lazylazulilib.Stack;
+import com.github.lazylazuli.lazylazulilib.block.state.BlockState;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
@@ -15,31 +15,25 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Default state must be set manually
- * <p>
- * <code>
- * setDefaultState(blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
- * </code>
- */
-public class ColoredBlock extends BlockBase
+public interface BlockDyed extends IBlock
 {
-	public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
+	PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
 	
-	public ColoredBlock(Material material)
+	default IBlockState getDefaultState()
 	{
-		super(material);
+		return getBlockState().getBaseState()
+							  .withProperty(COLOR, EnumDyeColor.WHITE);
 	}
 	
 	@Override
-	public int damageDropped(IBlockState state)
+	default int damageDropped(IBlockState state)
 	{
 		return getMetaFromState(state);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list)
+	default void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list)
 	{
 		for (EnumDyeColor dye : EnumDyeColor.values())
 		{
@@ -49,21 +43,22 @@ public class ColoredBlock extends BlockBase
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	default IBlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
 	}
 	
-	public int getMetaFromState(IBlockState state)
+	@Override
+	default int getMetaFromState(IBlockState state)
 	{
 		return state.getValue(COLOR)
 					.getMetadata();
 	}
 	
 	@Override
-	public BlockState createBlockState(ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
+	default BlockState createBlockState(ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
 	{
-		return new BlockState(this, propertiesIn)
+		return new BlockState(getBlock(), propertiesIn)
 		{
 			@Override
 			public MapColor getMapColor()
@@ -74,7 +69,7 @@ public class ColoredBlock extends BlockBase
 	}
 	
 	@Override
-	public IProperty<?>[] getProperties()
+	default IProperty<?>[] getProperties()
 	{
 		return new IProperty[] { COLOR };
 	}

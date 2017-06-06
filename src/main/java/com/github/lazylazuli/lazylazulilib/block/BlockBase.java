@@ -1,5 +1,6 @@
 package com.github.lazylazuli.lazylazulilib.block;
 
+import com.github.lazylazuli.lazylazulilib.Stack;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.Block;
@@ -9,8 +10,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatBase;
+import net.minecraft.stats.StatList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Mirror;
@@ -20,6 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IWorldNameable;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,7 +39,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public abstract class BlockBase extends Block
+public abstract class BlockBase extends Block implements IBlock
 {
 	public BlockBase(Material material)
 	{
@@ -39,9 +49,11 @@ public abstract class BlockBase extends Block
 		translucent = getDefaultState().isTranslucent();
 	}
 	
-	protected abstract IProperty<?>[] getProperties();
-	
-	protected abstract BlockState createBlockState(ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn);
+	@Override
+	public BlockBase getBlock()
+	{
+		return this;
+	}
 	
 	@Override
 	public BlockStateContainer createBlockState()
@@ -56,6 +68,43 @@ public abstract class BlockBase extends Block
 				return createBlockState(properties);
 			}
 		};
+	}
+	
+	@Override
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
+			@Nullable TileEntity te, ItemStack stack)
+	{
+		if (te instanceof IWorldNameable && ((IWorldNameable) te).hasCustomName())
+		{
+			StatBase stats = StatList.getBlockStats(this);
+			
+			if (stats != null)
+			{
+				player.addStat(stats);
+			}
+			
+			player.addExhaustion(0.005F);
+			
+			if (worldIn.isRemote)
+			{
+				return;
+			}
+			
+			int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
+			Item item = getItemDropped(state, worldIn.rand, i);
+			
+			if (item == Items.AIR)
+			{
+				return;
+			}
+			
+			ItemStack itemstack = Stack.of(item, quantityDropped(worldIn.rand));
+			itemstack.setStackDisplayName(((IWorldNameable) te).getName());
+			spawnAsEntity(worldIn, pos, itemstack);
+		} else
+		{
+			super.harvestBlock(worldIn, player, pos, state, null, stack);
+		}
 	}
 	
 	@Override

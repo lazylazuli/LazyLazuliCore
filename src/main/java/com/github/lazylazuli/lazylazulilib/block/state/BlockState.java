@@ -1,5 +1,6 @@
-package com.github.lazylazuli.lazylazulilib.block;
+package com.github.lazylazuli.lazylazulilib.block.state;
 
+import com.github.lazylazuli.lazylazulilib.block.BlockBase;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.EnumPushReaction;
@@ -30,7 +31,8 @@ import java.util.List;
 
 public class BlockState extends BlockStateContainer.StateImplementation
 {
-	public BlockState(BlockBase blockIn, ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
+	public BlockState(BlockBase blockIn,
+			ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
 	{
 		super(blockIn, propertiesIn);
 	}
