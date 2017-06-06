@@ -1,5 +1,6 @@
 package com.github.lazylazuli.lazylazulilib.block;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.EnumPushReaction;
@@ -20,6 +21,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -49,8 +51,7 @@ public abstract class BlockBase extends Block
 			@Override
 			protected StateImplementation createState(Block block, ImmutableMap<IProperty<?>, Comparable<?>>
 					properties,
-					@Nullable ImmutableMap<net.minecraftforge.common.property.IUnlistedProperty<?>, com.google.common
-							.base.Optional<?>> unlistedProperties)
+					@Nullable ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties)
 			{
 				return createBlockState(properties);
 			}
