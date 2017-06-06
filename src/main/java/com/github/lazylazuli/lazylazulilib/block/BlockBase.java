@@ -1,6 +1,7 @@
 package com.github.lazylazuli.lazylazulilib.block;
 
 import com.github.lazylazuli.lazylazulilib.Stack;
+import com.github.lazylazuli.lazylazulilib.block.state.BlockState;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.Block;
@@ -39,7 +40,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public abstract class BlockBase extends Block implements IBlock
+public abstract class BlockBase extends Block
 {
 	public BlockBase(Material material)
 	{
@@ -49,11 +50,9 @@ public abstract class BlockBase extends Block implements IBlock
 		translucent = getDefaultState().isTranslucent();
 	}
 	
-	@Override
-	public BlockBase getBlock()
-	{
-		return this;
-	}
+	protected abstract IProperty<?>[] getProperties();
+	
+	protected abstract BlockState createBlockState(ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn);
 	
 	@Override
 	public BlockStateContainer createBlockState()

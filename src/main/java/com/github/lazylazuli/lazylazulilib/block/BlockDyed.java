@@ -4,6 +4,7 @@ import com.github.lazylazuli.lazylazulilib.Stack;
 import com.github.lazylazuli.lazylazulilib.block.state.BlockState;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
@@ -15,25 +16,26 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface BlockDyed extends IBlock
+public class BlockDyed extends BlockBase
 {
 	PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
 	
-	default IBlockState getDefaultState()
+	public BlockDyed(Material material)
 	{
-		return getBlockState().getBaseState()
-							  .withProperty(COLOR, EnumDyeColor.WHITE);
+		super(material);
+		setDefaultState(getBlockState().getBaseState()
+									   .withProperty(COLOR, EnumDyeColor.WHITE));
 	}
 	
 	@Override
-	default int damageDropped(IBlockState state)
+	public int damageDropped(IBlockState state)
 	{
 		return getMetaFromState(state);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	default void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list)
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list)
 	{
 		for (EnumDyeColor dye : EnumDyeColor.values())
 		{
@@ -43,22 +45,22 @@ public interface BlockDyed extends IBlock
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	default IBlockState getStateFromMeta(int meta)
+	public IBlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
 	}
 	
 	@Override
-	default int getMetaFromState(IBlockState state)
+	public int getMetaFromState(IBlockState state)
 	{
 		return state.getValue(COLOR)
 					.getMetadata();
 	}
 	
 	@Override
-	default BlockState createBlockState(ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
+	public BlockState createBlockState(ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
 	{
-		return new BlockState(getBlock(), propertiesIn)
+		return new BlockState(this, propertiesIn)
 		{
 			@Override
 			public MapColor getMapColor()
@@ -69,7 +71,7 @@ public interface BlockDyed extends IBlock
 	}
 	
 	@Override
-	default IProperty<?>[] getProperties()
+	public IProperty<?>[] getProperties()
 	{
 		return new IProperty[] { COLOR };
 	}
