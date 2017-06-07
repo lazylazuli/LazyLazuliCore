@@ -1,6 +1,7 @@
 package com.github.lazylazuli.lazylazulilib;
 
 import com.github.lazylazuli.lazylazulilib.block.BlockDyed;
+import com.github.lazylazuli.lazylazulilib.item.ItemBlockDyed;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -104,22 +105,22 @@ public final class Registry
 		}
 	}
 	
-	public void registerDyedBlocks(FMLPreInitializationEvent event, Block... blocks)
+	public void registerDyedBlocks(FMLPreInitializationEvent event, BlockDyed... blocks)
 	{
 		log.info("Registering dyed Blocks...");
 		log.info("Creating ItemBlocks for each...");
 		
-		ItemBlock[] itemBlocks = new ItemBlock[blocks.length];
+		ItemBlockDyed[] itemBlocks = new ItemBlockDyed[blocks.length];
 		
 		for (int i = 0; i < blocks.length; i++)
 		{
-			itemBlocks[i] = new ItemBlock(blocks[i]);
+			itemBlocks[i] = new ItemBlockDyed(blocks[i]);
 		}
 		
-		registerItems(event, itemBlocks);
+		registerDyedItems(event, itemBlocks);
 	}
 	
-	public void registerDyedItems(FMLPreInitializationEvent event, Item... items)
+	public void registerDyedItems(FMLPreInitializationEvent event, ItemBlockDyed... items)
 	{
 		String name;
 		
