@@ -1,5 +1,5 @@
 {
-	"parent": "lazylazulilib:blocks/dyed_cube",
+	"parent": "lazylazulilib:block/dyed_cube",
 	"textures": {
 		"particle": "#all",
 		"d": "#all",
