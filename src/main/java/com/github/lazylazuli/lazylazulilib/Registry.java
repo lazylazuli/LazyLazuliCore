@@ -128,31 +128,21 @@ public final class Registry
 		
 		for (Item item : items)
 		{
-			if (item instanceof ItemBlock)
-			{
-				Block block = ((ItemBlock) item).getBlock();
-				GameRegistry.register(block);
-				GameRegistry.register(item, block.getRegistryName());
-				
-				name = block.getUnlocalizedName()
-							.substring(5);
-				
-				log.info("\tItemBlock: " + name);
-			} else
-			{
-				GameRegistry.register(item);
-				
-				name = item.getUnlocalizedName()
-						   .substring(5);
-				
-				log.info("\tItem: " + name);
-			}
+			Block block = ((ItemBlock) item).getBlock();
+			GameRegistry.register(block);
+			GameRegistry.register(item, block.getRegistryName());
+			
+			name = block.getUnlocalizedName()
+						.substring(5);
+			
+			log.info("\tItemBlock: " + name);
+			
+			name = modId + ":" + name;
 			
 			if (event.getSide() == Side.CLIENT)
 			{
 				for (int i = 0; i < 16; i++)
 				{
-					name = modId + ":" + name;
 					ModelResourceLocation resourceLocation = new ModelResourceLocation(name, "inventory");
 					ModelLoader.setCustomModelResourceLocation(item, i, resourceLocation);
 				}
