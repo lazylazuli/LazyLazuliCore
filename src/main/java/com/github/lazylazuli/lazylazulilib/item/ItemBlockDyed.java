@@ -27,19 +27,18 @@ public class ItemBlockDyed extends ItemBlock
 	@Override
 	public String getHighlightTip(ItemStack stack, String displayName)
 	{
-		return I18n.translateToLocal(getUnlocalizedName(stack)) + " " + displayName;
+		return I18n.translateToLocal(getUnlocalizedColor(stack)) + " " + displayName;
 	}
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
 	{
-		tooltip.add("Color: " + I18n.translateToLocal(getUnlocalizedName(stack)));
+		tooltip.add("Color: " + I18n.translateToLocal(getUnlocalizedColor(stack)));
 		
 		super.addInformation(stack, playerIn, tooltip, advanced);
 	}
 	
-	@Override
-	public String getUnlocalizedName(ItemStack stack)
+	public String getUnlocalizedColor(ItemStack stack)
 	{
 		return "color." + EnumDyeColor.byMetadata(stack.getMetadata())
 									  .getName() + ".name";
