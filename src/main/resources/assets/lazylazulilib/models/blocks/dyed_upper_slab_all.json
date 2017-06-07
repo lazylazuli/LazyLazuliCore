@@ -1,0 +1,12 @@
+{
+	"parent": "lazylazulilib:blocks/dyed_upper_slab",
+	"textures": {
+		"particle": "#all",
+		"d": "#all",
+		"u": "#all",
+		"n": "#all",
+		"s": "#all",
+		"w": "#all",
+		"e": "#all"
+	}
+}
