@@ -1,12 +1,15 @@
 package com.github.lazylazuli.lazylazulilib;
 
+import com.github.lazylazuli.lazylazulilib.block.BlockDyed;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemColored;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
@@ -43,9 +46,30 @@ public final class Registry
 		};
 	}
 	
+	public void registerBlocks(FMLPreInitializationEvent event, Block... blocks)
+	{
+		log.info("Registering Blocks...");
+		
+		for (Block block : blocks)
+		{
+			GameRegistry.register(block);
+			GameRegistry.register(new ItemBlock(block), block.getRegistryName());
+			
+			String name = block.getUnlocalizedName()
+							   .substring(5);
+			
+			log.info("\tBlock:" + name);
+			
+			if (event.getSide() == Side.CLIENT)
+			{
+				registerCustomModelLocation(block);
+			}
+		}
+	}
+	
 	public void registerItems(FMLPreInitializationEvent event, Item... items)
 	{
-		log.info("Registering items...");
+		log.info("Registering Items...");
 		
 		for (Item item : items)
 		{
@@ -61,32 +85,8 @@ public final class Registry
 				name = block.getUnlocalizedName()
 							.substring(5);
 				
-				log.info("\t" + modId + ":" + name);
+				log.info("\tItemBlock: " + name);
 				
-				if (item instanceof ItemColored)
-				{
-					log.debug("\t...setting colored model resources");
-					
-					for (int i = 0; i < 16; i++)
-					{
-						StringBuilder sb = new StringBuilder();
-						sb.append(modId)
-						  .append(":")
-						  .append(name)
-						  .append("_")
-						  .append(EnumDyeColor.byMetadata(i)
-											  .getUnlocalizedName());
-						
-						log.debug("\t\t" + sb.toString());
-						
-						ModelResourceLocation resourceLocation = new ModelResourceLocation(sb.toString(), "inventory");
-						
-						if (event.getSide() == Side.CLIENT)
-						{
-							ModelLoader.setCustomModelResourceLocation(item, i, resourceLocation);
-						}
-					}
-				}
 			} else
 			{
 				GameRegistry.register(item);
@@ -94,34 +94,80 @@ public final class Registry
 				name = item.getUnlocalizedName()
 						   .substring(5);
 				
-				log.info("\t" + modId + ":" + name);
-				
-				if (event.getSide() == Side.CLIENT)
-				{
-					registerCustomModelLocation(item);
-				}
+				log.info("\tItem: " + name);
+			}
+			
+			if (event.getSide() == Side.CLIENT)
+			{
+				registerCustomModelLocation(item);
 			}
 		}
 	}
 	
-	public void registerBlocks(FMLPreInitializationEvent event, Block... blocks)
+	public void registerDyedBlocks(FMLPreInitializationEvent event, Block... blocks)
 	{
-		log.info("Registering blocks...");
+		log.info("Registering dyed Blocks...");
+		log.info("Creating ItemBlocks for each...");
 		
-		for (Block block : blocks)
+		ItemBlock[] itemBlocks = new ItemBlock[blocks.length];
+		
+		for (int i = 0; i < blocks.length; i++)
 		{
-			GameRegistry.register(block);
-			GameRegistry.register(new ItemBlock(block), block.getRegistryName());
-			
-			String name = block.getUnlocalizedName()
-							   .substring(5);
-			
-			log.info("\t" + modId + ":" + name);
+			itemBlocks[i] = new ItemBlock(blocks[i]);
+		}
+		
+		registerItems(event, itemBlocks);
+	}
+	
+	public void registerDyedItems(FMLPreInitializationEvent event, Item... items)
+	{
+		String name;
+		
+		log.info("Registering dyed Items...");
+		
+		for (Item item : items)
+		{
+			if (item instanceof ItemBlock)
+			{
+				Block block = ((ItemBlock) item).getBlock();
+				GameRegistry.register(block);
+				GameRegistry.register(item, block.getRegistryName());
+				
+				name = block.getUnlocalizedName()
+							.substring(5);
+				
+				log.info("\tItemBlock: " + name);
+			} else
+			{
+				GameRegistry.register(item);
+				
+				name = item.getUnlocalizedName()
+						   .substring(5);
+				
+				log.info("\tItem: " + name);
+			}
 			
 			if (event.getSide() == Side.CLIENT)
 			{
-				registerCustomModelLocation(block);
+				for (int i = 0; i < 16; i++)
+				{
+					name = modId + ":" + name;
+					ModelResourceLocation resourceLocation = new ModelResourceLocation(name, "inventory");
+					ModelLoader.setCustomModelResourceLocation(item, i, resourceLocation);
+				}
 			}
+		}
+		
+		
+	}
+	
+	private void registerCustomModelLocation(Block block)
+	{
+		ResourceLocation resourceLocation = block.getRegistryName();
+		
+		if (resourceLocation != null)
+		{
+			registerCustomModelLocation(Item.getItemFromBlock(block), resourceLocation);
 		}
 	}
 	
@@ -135,18 +181,35 @@ public final class Registry
 		}
 	}
 	
-	private void registerCustomModelLocation(Block block)
-	{
-		ResourceLocation resourceLocation = block.getRegistryName();
-		
-		if (resourceLocation != null)
-		{
-			registerCustomModelLocation(Item.getItemFromBlock(block), resourceLocation);
-		}
-	}
-	
-	private void registerCustomModelLocation(@Nonnull Item item, @Nonnull ResourceLocation resourceLocation)
+	private void registerCustomModelLocation(Item item, ResourceLocation resourceLocation)
 	{
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(resourceLocation, "inventory"));
+	}
+	
+	public void registerDyedBlockColorHandler(Block... blocks)
+	{
+		BlockColors blockColors = Minecraft.getMinecraft()
+										   .getBlockColors();
+		
+		blockColors.registerBlockColorHandler((s, w, p, t) -> s.getValue(BlockDyed.COLOR)
+															   .getMapColor().colorValue, blocks);
+	}
+	
+	public void registerDyedItemColorHandler(Block... blocks)
+	{
+		ItemColors itemColors = Minecraft.getMinecraft()
+										 .getItemColors();
+		BlockColors blockColors = Minecraft.getMinecraft()
+										   .getBlockColors();
+		
+		itemColors.registerItemColorHandler(
+				(stack, tintIndex) ->
+				{
+					Block block = ((ItemBlock) stack.getItem()).getBlock();
+					IBlockState iblockstate = block.getStateFromMeta(stack.getMetadata());
+					
+					return blockColors.colorMultiplier(iblockstate, null, null, tintIndex);
+				}, blocks
+		);
 	}
 }
