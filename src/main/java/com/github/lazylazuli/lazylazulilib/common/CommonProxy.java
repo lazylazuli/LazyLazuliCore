@@ -64,6 +64,20 @@ public class CommonProxy implements Proxy
 	}
 	
 	@SideOnly(Side.CLIENT)
+	public void setModelResource(Item item)
+	{
+		ResourceLocation resLoc = item.getRegistryName();
+		if (resLoc != null)
+		{
+			ModelLoader.setCustomModelResourceLocation(
+					item,
+					0,
+					new ModelResourceLocation(resLoc, "inventory")
+			);
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
 	public void setModelResource(BlockDyed block)
 	{
 		Item item = Item.getItemFromBlock(block);
