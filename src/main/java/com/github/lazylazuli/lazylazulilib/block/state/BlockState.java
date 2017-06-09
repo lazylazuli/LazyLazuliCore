@@ -2,6 +2,7 @@ package com.github.lazylazuli.lazylazulilib.block.state;
 
 import com.github.lazylazuli.lazylazulilib.block.BlockBase;
 import com.google.common.collect.ImmutableMap;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.MapColor;
@@ -27,8 +28,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class BlockState extends BlockStateContainer.StateImplementation
 {
 	public BlockState(BlockBase blockIn,
@@ -348,6 +352,7 @@ public class BlockState extends BlockStateContainer.StateImplementation
 	}
 	
 	@Override
+	@Nullable
 	public RayTraceResult collisionRayTrace(World worldIn, BlockPos pos, Vec3d start, Vec3d end)
 	{
 		Vec3d vec3d = start.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
@@ -365,9 +370,9 @@ public class BlockState extends BlockStateContainer.StateImplementation
 	@Override
 	public Vec3d getOffset(IBlockAccess access, BlockPos pos)
 	{
-		Block.EnumOffsetType block$enumoffsettype = getBlock().getOffsetType();
+		Block.EnumOffsetType offsetType = getBlock().getOffsetType();
 		
-		if (block$enumoffsettype == Block.EnumOffsetType.NONE)
+		if (offsetType == Block.EnumOffsetType.NONE)
 		{
 			return Vec3d.ZERO;
 		} else
@@ -375,7 +380,7 @@ public class BlockState extends BlockStateContainer.StateImplementation
 			long i = MathHelper.getCoordinateRandom(pos.getX(), 0, pos.getZ());
 			return new Vec3d(
 					((double) ((float) (i >> 16 & 15L) / 15.0F) - 0.5D) * 0.5D,
-					block$enumoffsettype == Block.EnumOffsetType.XYZ ? ((double) ((float) (i >> 20 & 15L) / 15.0F) -
+					offsetType == Block.EnumOffsetType.XYZ ? ((double) ((float) (i >> 20 & 15L) / 15.0F) -
 							1.0D) * 0.2D : 0.0D,
 					((double) ((float) (i >> 24 & 15L) / 15.0F) - 0.5D) * 0.5D
 			);

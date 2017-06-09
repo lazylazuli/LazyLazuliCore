@@ -1,4 +1,4 @@
-package com.github.lazylazuli.lazylazulilib;
+package com.github.lazylazuli.lazylazulilib.inventory;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
@@ -166,22 +166,14 @@ public final class InventoryUtils
 	
 	public static boolean canInsertItemInSlot(IInventory inv, ItemStack stack, int index, EnumFacing side)
 	{
-		if (!inv.isItemValidForSlot(index, stack))
-		{
-			return false;
-		}
-		
-		if (!(inv instanceof ISidedInventory))
-		{
-			return true;
-		}
-		
-		if (side == null)
-		{
-			return false;
-		}
-		
-		return ((ISidedInventory) inv).canInsertItem(index, stack, side);
+		return inv.isItemValidForSlot(
+				index,
+				stack
+		) && (!(inv instanceof ISidedInventory) || side != null && ((ISidedInventory) inv).canInsertItem(
+				index,
+				stack,
+				side
+		));
 	}
 	
 	/**

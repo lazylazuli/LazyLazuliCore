@@ -1,9 +1,10 @@
 package com.github.lazylazuli.lazylazulilib.block;
 
-import com.github.lazylazuli.lazylazulilib.Stack;
+import com.github.lazylazuli.lazylazulilib.inventory.Stack;
 import com.github.lazylazuli.lazylazulilib.block.state.BlockState;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.MapColor;
@@ -37,17 +38,24 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public abstract class BlockBase extends Block
 {
-	public BlockBase(Material material)
+	public BlockBase(Material material, String registryName)
+	{
+		this(material, registryName, registryName);
+	}
+	
+	public BlockBase(Material material, String registryName, String unlocalizedName)
 	{
 		super(material);
-		fullBlock = getDefaultState().isFullBlock();
-		lightOpacity = getDefaultState().getLightOpacity();
-		translucent = getDefaultState().isTranslucent();
+		setRegistryName(registryName);
+		setUnlocalizedName(unlocalizedName);
 	}
 	
 	protected abstract IProperty<?>[] getProperties();

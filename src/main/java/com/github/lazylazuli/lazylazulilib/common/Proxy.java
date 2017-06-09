@@ -1,4 +1,4 @@
-package com.github.lazylazuli.lazylazulilib;
+package com.github.lazylazuli.lazylazulilib.common;
 
 import net.minecraftforge.fml.common.event.*;
 

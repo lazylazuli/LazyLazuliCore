@@ -2,12 +2,17 @@ package com.github.lazylazuli.lazylazulilib.block.state;
 
 import com.github.lazylazuli.lazylazulilib.block.BlockBase;
 import com.google.common.collect.ImmutableMap;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class BlockStateTile extends BlockState
 {
 	public BlockStateTile(BlockBase blockIn,

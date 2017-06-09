@@ -1,15 +1,18 @@
 package com.github.lazylazuli.lazylazulilib.item;
 
 import com.github.lazylazuli.lazylazulilib.block.BlockDyed;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-public class ItemBlockDyed extends ItemBlock
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+public class ItemBlockDyed extends ItemBlockBase
 {
 	public ItemBlockDyed(BlockDyed blockdyed)
 	{

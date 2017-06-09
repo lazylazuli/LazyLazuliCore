@@ -1,4 +1,4 @@
-package com.github.lazylazuli.lazylazulilib;
+package com.github.lazylazuli.lazylazulilib.inventory;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class Craftory
 {
 	/**
+	 * Pattern:<p>
 	 * ###
 	 */
 	public static void horizontal(ItemStack result, ItemStack ingredient)
@@ -14,6 +15,7 @@ public class Craftory
 	}
 	
 	/**
+	 * Pattern:<p>
 	 * #<br>
 	 * #<br>
 	 * #
@@ -24,6 +26,7 @@ public class Craftory
 	}
 	
 	/**
+	 * Pattern:<p>
 	 * ###<br>
 	 * # #<br>
 	 * ###
@@ -34,6 +37,7 @@ public class Craftory
 	}
 	
 	/**
+	 * Pattern:<p>
 	 * ###<br>
 	 * #X#<br>
 	 * ###
@@ -44,6 +48,7 @@ public class Craftory
 	}
 	
 	/**
+	 * Pattern:<p>
 	 * ###<br>
 	 * ###<br>
 	 * ###
@@ -54,6 +59,7 @@ public class Craftory
 	}
 	
 	/**
+	 * Pattern:<p>
 	 * X#X<br>
 	 * #X#<br>
 	 * X#X

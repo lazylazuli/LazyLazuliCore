@@ -1,8 +1,9 @@
 package com.github.lazylazuli.lazylazulilib.block;
 
-import com.github.lazylazuli.lazylazulilib.Stack;
+import com.github.lazylazuli.lazylazulilib.inventory.Stack;
 import com.github.lazylazuli.lazylazulilib.block.state.BlockState;
 import com.google.common.collect.ImmutableMap;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -16,13 +17,22 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class BlockDyed extends BlockBase
 {
 	public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
 	
-	public BlockDyed(Material material)
+	public BlockDyed(Material material, String registryName)
 	{
-		super(material);
+		this(material, registryName, registryName);
+	}
+	
+	public BlockDyed(Material material, String registryName, String unlocalizedName)
+	{
+		super(material, registryName, unlocalizedName);
 		setDefaultState(getBlockState().getBaseState()
 									   .withProperty(COLOR, EnumDyeColor.WHITE));
 	}
@@ -58,7 +68,7 @@ public class BlockDyed extends BlockBase
 	}
 	
 	@Override
-	public BlockState createBlockState(ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
+	protected BlockState createBlockState(ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
 	{
 		return new BlockState(this, propertiesIn)
 		{
@@ -71,7 +81,7 @@ public class BlockDyed extends BlockBase
 	}
 	
 	@Override
-	public IProperty<?>[] getProperties()
+	protected IProperty<?>[] getProperties()
 	{
 		return new IProperty[] { COLOR };
 	}
