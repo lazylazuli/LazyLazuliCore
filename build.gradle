@@ -12,12 +12,15 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 def modid = "lazylazulilib"
 def modname = "Lazy Lazuli Lib"
-def modversion = "2.2.0"
-def mcversion = "1.11.2"
-def forgeversion = "13.20.0.2228"
+
 def modfile = "LazyLazuliLib.java"
 
-version = mcversion + "-" + modversion
+def mcversion = "1.11.2"
+def forgeversion = "13.20.0.2228"
+def modversion = "2.0.0"
+def buildnumber = "1"
+
+version = mcversion + "-" + modversion + "-" + buildnumber
 group = "com.github.lazylazuli.lazylazulilib"
 archivesBaseName = modid
 
