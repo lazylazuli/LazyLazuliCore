@@ -10,25 +10,27 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-def modid = "lazylazulilib"
-def modname = "Lazy Lazuli Lib"
+ext {
+	modid = "lazylazulilib"
+	modname = "Lazy Lazuli Lib"
 
-def modfile = "LazyLazuliLib.java"
+	modfile = "LazyLazuliLib.java"
 
-def mcversion = "1.11.2"
-def forgeversion = "13.20.0.2228"
-def modversion = "2.0.0"
+	mcversion = "1.11.2"
+	forgeversion = "13.20.0.2228"
+	modversion = "2.0.0"
 
-def getBuildNumber = { ->
-	def stdout = new ByteArrayOutputStream()
-	exec {
-		commandLine 'git', 'rev-list', 'HEAD', '--count'
-		standardOutput = stdout
+	buildnumber = { ->
+		stdout = new ByteArrayOutputStream()
+		exec {
+			commandLine 'git', 'rev-list', 'HEAD', '--count'
+			standardOutput = stdout
+		}
+		return stdout.toString().trim()
 	}
-	return stdout.toString().trim()
 }
 
-version = "$mcversion-$modversion-$getBuildNumber"
+version = "$mcversion-$modversion-$buildnumber"
 group = "com.github.lazylazuli.lib"
 archivesBaseName = modid
 
@@ -38,7 +40,7 @@ compileJava {
 }
 
 minecraft {
-	version = mcversion + "-" + forgeversion
+	version = "$mcversion-$forgeversion"
 	runDir = "run"
 
 	mappings = "snapshot_20161220"
