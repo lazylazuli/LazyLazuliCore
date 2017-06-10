@@ -5,12 +5,9 @@
   "description": "Core library for all Lazy Lazuli mods.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
+  "url": "https://minecraft.curseforge.com/projects/lazy-lazuli-lib",
   "authorList": ["LazyLazuli"],
-  "credits": "",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
+  "useDependencyInformation": true,
+  "dependants": [ "lazylazulitraps", "lazylazulipipes" ]
 }
 ]
