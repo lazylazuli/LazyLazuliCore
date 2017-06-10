@@ -28,7 +28,7 @@ def getBuildNumber = { ->
 	return stdout.toString().trim()
 }
 
-version = "$mcversion-$modversion-$getBuildNumber()"
+version = "$mcversion-$modversion-$getBuildNumber"
 group = "com.github.lazylazuli.lib"
 archivesBaseName = modid
 
