@@ -1,6 +1,6 @@
-package com.github.lazylazuli.lazylazulilib.item;
+package com.github.lazylazuli.lazylazulilib.common.item;
 
-import com.github.lazylazuli.lazylazulilib.block.BlockDyed;
+import com.github.lazylazuli.lazylazulilib.common.block.BlockDyed;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumDyeColor;

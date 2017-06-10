@@ -1,6 +1,5 @@
-package com.github.lazylazuli.lazylazulilib;
+package com.github.lazylazuli.lazylazulilib.common;
 
-import com.github.lazylazuli.lazylazulilib.common.Proxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.*;
 

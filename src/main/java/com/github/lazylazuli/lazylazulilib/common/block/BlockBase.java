@@ -1,7 +1,7 @@
-package com.github.lazylazuli.lazylazulilib.block;
+package com.github.lazylazuli.lazylazulilib.common.block;
 
-import com.github.lazylazuli.lazylazulilib.inventory.Stack;
-import com.github.lazylazuli.lazylazulilib.block.state.BlockState;
+import com.github.lazylazuli.lazylazulilib.common.block.state.BlockState;
+import com.github.lazylazuli.lazylazulilib.common.inventory.Stack;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import mcp.MethodsReturnNonnullByDefault;

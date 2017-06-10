@@ -1,6 +1,6 @@
-package com.github.lazylazuli.lazylazulilib.item;
+package com.github.lazylazuli.lazylazulilib.common.item;
 
-import com.github.lazylazuli.lazylazulilib.block.BlockBase;
+import com.github.lazylazuli.lazylazulilib.common.block.BlockBase;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;

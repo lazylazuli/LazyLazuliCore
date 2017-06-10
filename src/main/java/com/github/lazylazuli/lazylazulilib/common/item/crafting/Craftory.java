@@ -1,4 +1,4 @@
-package com.github.lazylazuli.lazylazulilib.inventory;
+package com.github.lazylazuli.lazylazulilib.common.item.crafting;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
