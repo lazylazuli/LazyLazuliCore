@@ -23,7 +23,7 @@ ext {
 	buildnumber = { ->
 		stdout = new ByteArrayOutputStream()
 		exec {
-			commandLine 'git', 'rev-list', 'HEAD', '--count'
+			commandLine 'git', 'rev-list', 'master', '--count'
 			standardOutput = stdout
 		}
 		return stdout.toString().trim()
