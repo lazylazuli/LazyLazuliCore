@@ -1,4 +1,4 @@
-package com.github.lazylazuli.lazylazulilib.common.registry;
+package com.github.lazylazuli.lib.common.registry;
 
 import net.minecraft.block.Block;
 

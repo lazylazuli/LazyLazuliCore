@@ -18,10 +18,10 @@ def modfile = "LazyLazuliLib.java"
 def mcversion = "1.11.2"
 def forgeversion = "13.20.0.2228"
 def modversion = "2.0.0"
-def buildnumber = "1"
+def buildnumber = "2"
 
 version = mcversion + "-" + modversion + "-" + buildnumber
-group = "com.github.lazylazuli.lazylazulilib"
+group = "com.github.lazylazuli.lib"
 archivesBaseName = modid
 
 sourceCompatibility = targetCompatibility = "1.8"

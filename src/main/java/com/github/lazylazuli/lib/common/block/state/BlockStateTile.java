@@ -1,6 +1,6 @@
-package com.github.lazylazuli.lazylazulilib.common.block.state;
+package com.github.lazylazuli.lib.common.block.state;
 
-import com.github.lazylazuli.lazylazulilib.common.block.BlockBase;
+import com.github.lazylazuli.lib.common.block.BlockBase;
 import com.google.common.collect.ImmutableMap;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.properties.IProperty;

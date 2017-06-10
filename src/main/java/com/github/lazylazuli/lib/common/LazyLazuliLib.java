@@ -1,4 +1,4 @@
-package com.github.lazylazuli.lazylazulilib.common;
+package com.github.lazylazuli.lib.common;
 
 import net.minecraftforge.fml.common.Mod;
 

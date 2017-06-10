@@ -1,9 +1,9 @@
-package com.github.lazylazuli.lazylazulilib.common;
+package com.github.lazylazuli.lib.common;
 
-import com.github.lazylazuli.lazylazulilib.common.block.BlockDyed;
-import com.github.lazylazuli.lazylazulilib.common.registry.BlockRegistry;
-import com.github.lazylazuli.lazylazulilib.common.registry.CreativeTabRegistry;
-import com.github.lazylazuli.lazylazulilib.common.registry.ItemRegistry;
+import com.github.lazylazuli.lib.common.block.BlockDyed;
+import com.github.lazylazuli.lib.common.registry.BlockRegistry;
+import com.github.lazylazuli.lib.common.registry.CreativeTabRegistry;
+import com.github.lazylazuli.lib.common.registry.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
