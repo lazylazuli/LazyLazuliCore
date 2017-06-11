@@ -20,14 +20,15 @@ ext {
 	forgeversion = "13.20.0.2228"
 	modversion = "2.0.0"
 
-	buildnumber = { ->
+	getBuildNumber = { ->
 		stdout = new ByteArrayOutputStream()
 		exec {
-			commandLine 'git', 'rev-list', 'master', '--count'
+			commandLine 'git', 'rev-list', '1.11.2', '--count'
 			standardOutput = stdout
 		}
 		return stdout.toString().trim()
 	}
+	buildnumber = 36
 }
 
 version = "$mcversion-$modversion-$buildnumber"
