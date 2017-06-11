@@ -23,12 +23,12 @@ ext {
 	getBuildNumber = { ->
 		stdout = new ByteArrayOutputStream()
 		exec {
-			commandLine 'git', 'rev-list', 'master', '--count'
+			commandLine 'git', 'rev-list', '1.11.2', '--count'
 			standardOutput = stdout
 		}
 		return stdout.toString().trim()
 	}
-	buildnumber = 30
+	buildnumber = 36
 }
 
 version = "$mcversion-$modversion-$buildnumber"
