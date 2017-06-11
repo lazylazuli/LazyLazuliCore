@@ -302,9 +302,9 @@ public abstract class BlockBase extends Block
 	// RENDER
 	
 	@Override
-	public MapColor getMapColor(IBlockState state)
+	public MapColor getMapColor(IBlockState state, IBlockAccess blockAccess, BlockPos pos)
 	{
-		return state.getMapColor();
+		return state.getMapColor(blockAccess, pos);
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package com.github.lazylazuli.lib.common.item.crafting;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+// TODO: 2017-06-11 Update when forge updates
 public class Craftory
 {
 	/**
@@ -11,7 +12,7 @@ public class Craftory
 	 */
 	public static void horizontal(ItemStack result, ItemStack ingredient)
 	{
-		GameRegistry.addRecipe(result, "###", '#', ingredient);
+//		GameRegistry.addRecipe(result, "###", '#', ingredient);
 	}
 	
 	/**
@@ -22,7 +23,7 @@ public class Craftory
 	 */
 	public static void vertical(ItemStack result, ItemStack ingredient)
 	{
-		GameRegistry.addRecipe(result, "#", "#", "#", '#', ingredient);
+//		GameRegistry.addRecipe(result, "#", "#", "#", '#', ingredient);
 	}
 	
 	/**
@@ -33,7 +34,7 @@ public class Craftory
 	 */
 	public static void frame(ItemStack result, ItemStack ingredient)
 	{
-		GameRegistry.addRecipe(result, "###", "# #", "###", '#', ingredient);
+//		GameRegistry.addRecipe(result, "###", "# #", "###", '#', ingredient);
 	}
 	
 	/**
@@ -44,7 +45,7 @@ public class Craftory
 	 */
 	public static void framed(ItemStack result, ItemStack frame, ItemStack framed)
 	{
-		GameRegistry.addRecipe(result, "###", "#X#", "###", '#', frame, 'X', framed);
+//		GameRegistry.addRecipe(result, "###", "#X#", "###", '#', frame, 'X', framed);
 	}
 	
 	/**
@@ -55,7 +56,7 @@ public class Craftory
 	 */
 	public static void block(ItemStack result, ItemStack ingredient)
 	{
-		GameRegistry.addRecipe(result, "###", "###", "###", '#', ingredient);
+//		GameRegistry.addRecipe(result, "###", "###", "###", '#', ingredient);
 	}
 	
 	/**
@@ -66,6 +67,6 @@ public class Craftory
 	 */
 	public static void mix(ItemStack result, ItemStack diamond, ItemStack x)
 	{
-		GameRegistry.addRecipe(result, "X#X", "#X#", "X#X", '#', diamond, 'X', x);
+//		GameRegistry.addRecipe(result, "X#X", "#X#", "X#X", '#', diamond, 'X', x);
 	}
 }

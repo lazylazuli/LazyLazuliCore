@@ -11,9 +11,10 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -45,11 +46,11 @@ public class BlockDyed extends BlockBase
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list)
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list)
 	{
 		for (EnumDyeColor dye : EnumDyeColor.values())
 		{
-			list.add(Stack.ofMeta(itemIn, dye.getMetadata()));
+			list.add(Stack.ofMeta(this, dye.getMetadata()));
 		}
 	}
 	
@@ -73,9 +74,9 @@ public class BlockDyed extends BlockBase
 		return new BlockState(this, propertiesIn)
 		{
 			@Override
-			public MapColor getMapColor()
+			public MapColor getMapColor(IBlockAccess blockAccess, BlockPos pos)
 			{
-				return getValue(COLOR).getMapColor();
+				return MapColor.func_193558_a(getValue(COLOR));
 			}
 		};
 	}

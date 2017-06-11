@@ -230,7 +230,7 @@ public class BlockState extends BlockStateContainer.StateImplementation
 	// RENDER
 	
 	@Override
-	public MapColor getMapColor()
+	public MapColor getMapColor(IBlockAccess blockAccess, BlockPos pos)
 	{
 		return getMaterial().getMaterialMapColor();
 	}
@@ -352,7 +352,6 @@ public class BlockState extends BlockStateContainer.StateImplementation
 	}
 	
 	@Override
-	@Nullable
 	public RayTraceResult collisionRayTrace(World worldIn, BlockPos pos, Vec3d start, Vec3d end)
 	{
 		Vec3d vec3d = start.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());

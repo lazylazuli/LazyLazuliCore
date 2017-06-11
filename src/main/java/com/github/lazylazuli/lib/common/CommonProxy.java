@@ -5,6 +5,7 @@ import com.github.lazylazuli.lib.common.registry.BlockRegistry;
 import com.github.lazylazuli.lib.common.registry.CreativeTabRegistry;
 import com.github.lazylazuli.lib.common.registry.ItemRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -101,8 +102,10 @@ public class CommonProxy implements Proxy
 		ItemColors itemColors = Minecraft.getMinecraft()
 										 .getItemColors();
 		
-		blockColors.registerBlockColorHandler((s, w, p, t) -> s.getValue(BlockDyed.COLOR)
-															   .getMapColor().colorValue, blocks);
+		blockColors.registerBlockColorHandler(
+				(s, w, p, t) -> MapColor.func_193558_a(s.getValue(BlockDyed.COLOR)).colorValue,
+				blocks
+		);
 		
 		itemColors.registerItemColorHandler(
 				(stack, tintIndex) ->

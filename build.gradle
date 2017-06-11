@@ -4,7 +4,7 @@ buildscript {
 		maven { url = "http://files.minecraftforge.net/maven" }
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
 	}
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -16,19 +16,19 @@ ext {
 
 	modfile = "LazyLazuliLib.java"
 
-	mcversion = "1.11.2"
-	forgeversion = "13.20.0.2228"
+	mcversion = "1.12"
+	forgeversion = "14.21.0.2321"
 	modversion = "2.0.0"
 
 	getBuildNumber = { ->
 		stdout = new ByteArrayOutputStream()
 		exec {
-			commandLine 'git', 'rev-list', '1.11.2', '--count'
+			commandLine 'git', 'rev-list', 'master', '--count'
 			standardOutput = stdout
 		}
 		return stdout.toString().trim()
 	}
-	buildnumber = 36
+	buildnumber = 38
 }
 
 version = "$mcversion-$modversion-$buildnumber"
