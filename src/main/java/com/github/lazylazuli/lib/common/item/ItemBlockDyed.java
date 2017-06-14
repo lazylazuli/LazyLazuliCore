@@ -2,9 +2,9 @@ package com.github.lazylazuli.lib.common.item;
 
 import com.github.lazylazuli.lib.common.block.BlockDyed;
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -26,15 +26,9 @@ public class ItemBlockDyed extends ItemBlockBase
 	}
 	
 	@Override
-	public String getHighlightTip(ItemStack stack, String displayName)
-	{
-		return I18n.translateToLocal(getUnlocalizedColor(stack)) + " " + displayName;
-	}
-	
-	@Override
 	public String getItemStackDisplayName(ItemStack stack)
 	{
-		return I18n.translateToLocal(getUnlocalizedColor(stack)) + " " + super.getItemStackDisplayName(stack);
+		return I18n.format(getUnlocalizedColor(stack)) + " " + super.getItemStackDisplayName(stack);
 	}
 	
 	public String getUnlocalizedColor(ItemStack stack)
