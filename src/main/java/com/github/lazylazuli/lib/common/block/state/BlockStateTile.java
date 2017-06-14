@@ -1,9 +1,6 @@
 package com.github.lazylazuli.lib.common.block.state;
 
-import com.github.lazylazuli.lib.common.block.BlockBase;
-import com.google.common.collect.ImmutableMap;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
@@ -13,23 +10,15 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class BlockStateTile extends BlockState
+public interface BlockStateTile
 {
-	public BlockStateTile(BlockBase blockIn,
-			ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
-	{
-		super(blockIn, propertiesIn);
-	}
-	
-	@Override
-	public boolean onBlockEventReceived(World worldIn, BlockPos pos, int id, int param)
+	default boolean onBlockEventReceived(World worldIn, BlockPos pos, int id, int param)
 	{
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		return tileentity != null && tileentity.receiveClientEvent(id, param);
 	}
 	
-	@Override
-	public EnumBlockRenderType getRenderType()
+	default EnumBlockRenderType getRenderType()
 	{
 		return EnumBlockRenderType.INVISIBLE;
 	}
