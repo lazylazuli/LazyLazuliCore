@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.logging.log4j.Logger;
 
 public class CommonProxy implements Proxy
 {
@@ -33,20 +34,40 @@ public class CommonProxy implements Proxy
 	@SubscribeEvent
 	public final void registerBlocks(RegistryEvent.Register<Block> event)
 	{
+		Logger log = LazyLazuliLib.instance.getLogger();
+		
+		log.debug("Registering blocks...");
+		
 		if (this instanceof BlockRegistry)
 		{
-			event.getRegistry()
-				 .registerAll(((BlockRegistry) this).getBlocksForRegistry());
+			for (Block block : ((BlockRegistry) this).getBlocksForRegistry())
+			{
+				log.debug("\t" + block.getUnlocalizedName()
+									  .substring(5));
+				
+				event.getRegistry()
+					 .register(block);
+			}
 		}
 	}
 	
 	@SubscribeEvent
 	public final void registerItems(RegistryEvent.Register<Item> event)
 	{
+		Logger log = LazyLazuliLib.instance.getLogger();
+		
+		log.debug("Registering items...");
+		
 		if (this instanceof ItemRegistry)
 		{
-			event.getRegistry()
-				 .registerAll(((ItemRegistry) this).getItemsForRegistry());
+			for (Item item : ((ItemRegistry) this).getItemsForRegistry())
+			{
+				log.debug("\t" + item.getUnlocalizedName()
+									 .substring(5));
+				
+				event.getRegistry()
+					 .register(item);
+			}
 		}
 	}
 	
