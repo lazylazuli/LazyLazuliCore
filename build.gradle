@@ -17,7 +17,7 @@ ext {
 	modfile = "LazyLazuliLib.java"
 
 	mcversion = "1.12"
-	forgeversion = "14.21.0.2321"
+	forgeversion = "14.21.0.2327"
 	modversion = "2.0.0"
 
 	getBuildNumber = { ->
@@ -28,7 +28,7 @@ ext {
 		}
 		return stdout.toString().trim()
 	}
-	buildnumber = 41
+	buildnumber = 45
 }
 
 version = "$mcversion-$modversion-$buildnumber"
