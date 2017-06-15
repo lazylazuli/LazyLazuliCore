@@ -2,10 +2,21 @@ package com.github.lazylazuli.lib.common;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class LazyLazuliMod
 {
+	private final Logger logger = LogManager.getLogger(getId());
+	
+	public abstract String getId();
+	
 	public abstract Proxy getProxy();
+	
+	public Logger getLogger()
+	{
+		return logger;
+	}
 	
 	/**
 	 * Override and annotate with {@link Mod.EventHandler @Mod.EventHandler} to use
