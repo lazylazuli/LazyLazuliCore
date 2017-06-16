@@ -17,7 +17,7 @@ ext {
 	modfile = "LazyLazuliLib.java"
 
 	mcversion = "1.12"
-	forgeversion = "14.21.0.2327"
+	forgeversion = "14.21.0.2331"
 	modversion = "2.0.0"
 
 	getBuildNumber = { ->
