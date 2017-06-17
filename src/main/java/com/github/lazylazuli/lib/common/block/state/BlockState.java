@@ -36,8 +36,7 @@ import java.util.List;
 @ParametersAreNonnullByDefault
 public class BlockState extends BlockStateContainer.StateImplementation
 {
-	public BlockState(BlockBase blockIn,
-			ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
+	public BlockState(BlockBase blockIn, ImmutableMap<IProperty<?>, Comparable<?>> propertiesIn)
 	{
 		super(blockIn, propertiesIn);
 	}
@@ -337,8 +336,8 @@ public class BlockState extends BlockStateContainer.StateImplementation
 	}
 	
 	@Override
-	public void addCollisionBoxToList(World worldIn, BlockPos pos, AxisAlignedBB entityBox,
-			List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185908_6_)
+	public void addCollisionBoxToList(World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB>
+			collidingBoxes, @Nullable Entity entityIn, boolean p_185908_6_)
 	{
 		AxisAlignedBB blockBox = getCollisionBoundingBox(worldIn, pos);
 		if (entityBox != Block.NULL_AABB && blockBox != null)
@@ -359,6 +358,7 @@ public class BlockState extends BlockStateContainer.StateImplementation
 	}
 	
 	@Override
+	@Nullable
 	public RayTraceResult collisionRayTrace(World worldIn, BlockPos pos, Vec3d start, Vec3d end)
 	{
 		Vec3d vec3d = start.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
@@ -386,8 +386,8 @@ public class BlockState extends BlockStateContainer.StateImplementation
 			long i = MathHelper.getCoordinateRandom(pos.getX(), 0, pos.getZ());
 			return new Vec3d(
 					((double) ((float) (i >> 16 & 15L) / 15.0F) - 0.5D) * 0.5D,
-					offsetType == Block.EnumOffsetType.XYZ ? ((double) ((float) (i >> 20 & 15L) / 15.0F) -
-							1.0D) * 0.2D : 0.0D,
+					offsetType == Block.EnumOffsetType.XYZ ? ((double) ((float) (i >> 20 & 15L) / 15.0F) - 1.0D) *
+							0.2D : 0.0D,
 					((double) ((float) (i >> 24 & 15L) / 15.0F) - 0.5D) * 0.5D
 			);
 		}

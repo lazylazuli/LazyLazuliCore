@@ -128,7 +128,8 @@ public class CommonProxy implements Proxy
 		ItemColors itemColors = Minecraft.getMinecraft()
 										 .getItemColors();
 		
-		blockColors.registerBlockColorHandler((s, w, p, t) -> MapColor.func_193558_a(s.getValue(BlockDyed.COLOR)).colorValue,
+		blockColors.registerBlockColorHandler(
+				(s, w, p, t) -> MapColor.func_193558_a(s.getValue(BlockDyed.COLOR)).colorValue,
 				blocks
 		);
 		

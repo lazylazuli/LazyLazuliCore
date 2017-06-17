@@ -52,10 +52,13 @@ public final class InventoryUtils
 		
 		if (inv == null)
 		{
-			List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(x - 0.5D, y - 0.5D, z -
-					0.5D, x + 0.5D, y + 0.5D, z + 0.5D), EntitySelectors.HAS_INVENTORY);
-			list.addAll(world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(x - 0.5D, y - 0.5D, z -
-					0.5D, x + 0.5D, y + 0.5D, z + 0.5D)));
+			List<Entity> list = world.getEntitiesWithinAABB(Entity.class,
+					new AxisAlignedBB(x - 0.5D, y - 0.5D, z - 0.5D, x + 0.5D, y + 0.5D, z + 0.5D),
+					EntitySelectors.HAS_INVENTORY
+			);
+			list.addAll(world.getEntitiesWithinAABB(EntityPlayer.class,
+					new AxisAlignedBB(x - 0.5D, y - 0.5D, z - 0.5D, x + 0.5D, y + 0.5D, z + 0.5D)
+			));
 			
 			if (!list.isEmpty())
 			{
@@ -160,8 +163,9 @@ public final class InventoryUtils
 	public static boolean isInventorySlotFull(IInventory inv, int index)
 	{
 		ItemStack stack = inv.getStackInSlot(index);
-		return !stack.isEmpty() && (stack.getCount() >= Math.min(inv.getInventoryStackLimit(), stack.getMaxStackSize
-				()));
+		return !stack.isEmpty() && (stack.getCount() >= Math.min(inv.getInventoryStackLimit(),
+				stack.getMaxStackSize()
+		));
 	}
 	
 	public static boolean canInsertItemInSlot(IInventory inv, ItemStack stack, int index, EnumFacing side)

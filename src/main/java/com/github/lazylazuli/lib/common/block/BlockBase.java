@@ -69,9 +69,7 @@ public abstract class BlockBase extends Block
 		return new BlockStateContainer(this, getProperties())
 		{
 			@Override
-			protected StateImplementation createState(Block block, ImmutableMap<IProperty<?>, Comparable<?>>
-					properties,
-					@Nullable ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties)
+			protected StateImplementation createState(Block block, ImmutableMap<IProperty<?>, Comparable<?>> properties, @Nullable ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties)
 			{
 				return createBlockState(properties);
 			}
@@ -79,8 +77,8 @@ public abstract class BlockBase extends Block
 	}
 	
 	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
-			@Nullable TileEntity te, ItemStack stack)
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity
+			te, ItemStack stack)
 	{
 		if (te instanceof IWorldNameable && ((IWorldNameable) te).hasCustomName())
 		{
@@ -356,8 +354,7 @@ public abstract class BlockBase extends Block
 	}
 	
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
-			List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185908_6_)
+	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185908_6_)
 	{
 		state.addCollisionBoxToList(worldIn, pos, entityBox, collidingBoxes, entityIn, p_185908_6_);
 	}
