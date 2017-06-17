@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -70,10 +72,18 @@ public class JsonRecipeFactory
 		return object;
 	}
 	
+	private JsonObject writeOre(String name)
+	{
+		JsonObject object = new JsonObject();
+		object.addProperty("ore", name);
+		object.addProperty("type", "forge:ore_dict");
+		return object;
+	}
+	
 	public void createShapedRecipe(String name, ItemStack result, Object... params)
 	{
 		JsonObject json = new JsonObject();
-		json.addProperty("type", "minecraft:crafting_shaped");
+		json.addProperty("type", "forge:ore_shaped");
 		
 		List<String> patternList = new ArrayList<>();
 		
@@ -93,19 +103,40 @@ public class JsonRecipeFactory
 				char c = (char) o;
 				o = q.poll();
 				
-				ItemStack stack;
+				JsonObject ingredient;
 				if (o instanceof Block)
 				{
-					stack = new ItemStack((Block) o, 1, 32767);
+					if (o == Blocks.PLANKS)
+					{
+						ingredient = writeOre("plankWood");
+					} else if (o == Blocks.COBBLESTONE)
+					{
+						ingredient = writeOre("cobblestone");
+					} else
+					{
+						ingredient = writeStack(new ItemStack((Block) o, 1, 32767));
+					}
 				} else if (o instanceof Item)
 				{
-					stack = new ItemStack((Item) o, 1, 32767);
+					if (o == Items.IRON_INGOT)
+					{
+						ingredient = writeOre("ingotIron");
+					} else if (o == Items.GOLD_INGOT)
+					{
+						ingredient = writeOre("ingotGold");
+					} else if (o == Items.DIAMOND)
+					{
+						ingredient = writeOre("gemDiamond");
+					} else
+					{
+						ingredient = writeStack(new ItemStack((Item) o, 1, 32767));
+					}
 				} else
 				{
-					stack = (ItemStack) o;
+					ingredient = writeStack((ItemStack) o);
 				}
 				
-				key.add(Character.toString(c), writeStack(stack));
+				key.add(Character.toString(c), ingredient);
 			}
 		}
 		
