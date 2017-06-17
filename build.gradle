@@ -28,7 +28,7 @@ ext {
 		}
 		return stdout.toString().trim()
 	}
-	buildnumber = 50
+	buildnumber = 52
 }
 
 version = "$mcversion-$modversion-$buildnumber"
