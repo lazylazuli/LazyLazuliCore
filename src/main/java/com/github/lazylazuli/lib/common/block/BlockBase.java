@@ -10,6 +10,7 @@ import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -202,6 +203,12 @@ public abstract class BlockBase extends Block
 	public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side)
 	{
 		return state.isSideSolid(world, pos, side);
+	}
+	
+	@Override
+	public BlockFaceShape func_193383_a(IBlockAccess iBlockAccess, IBlockState state, BlockPos pos, EnumFacing side)
+	{
+		return state.func_193401_d(iBlockAccess, pos, side);
 	}
 	
 	@Override

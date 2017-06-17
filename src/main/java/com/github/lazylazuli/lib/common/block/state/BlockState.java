@@ -8,6 +8,7 @@ import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -125,6 +126,12 @@ public class BlockState extends BlockStateContainer.StateImplementation
 	public boolean isSideSolid(IBlockAccess world, BlockPos pos, EnumFacing side)
 	{
 		return isFullyOpaque() && side == EnumFacing.UP || isNormalCube();
+	}
+	
+	@Override
+	public BlockFaceShape func_193401_d(IBlockAccess iBlockAccess, BlockPos pos, EnumFacing side)
+	{
+		return isSideSolid(iBlockAccess, pos, side) ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
 	
 	@Override
