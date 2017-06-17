@@ -74,43 +74,53 @@ public class CommonProxy implements Proxy
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public void setModelResource(Block block)
+	public void setModelResourceFor(Block... blocks)
 	{
-		ResourceLocation resLoc = block.getRegistryName();
-		if (resLoc != null)
+		for (Block block : blocks)
 		{
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation
-					(resLoc, "inventory"));
-		}
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void setModelResource(Item item)
-	{
-		ResourceLocation resLoc = item.getRegistryName();
-		if (resLoc != null)
-		{
-			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(resLoc, "inventory"));
-		}
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void setModelResource(BlockDyed block)
-	{
-		Item item = Item.getItemFromBlock(block);
-		ResourceLocation resLoc = block.getRegistryName();
-		
-		if (resLoc != null)
-		{
-			for (int i = 0; i < 16; i++)
+			ResourceLocation resLoc = block.getRegistryName();
+			if (resLoc != null)
 			{
-				ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(resLoc, "inventory"));
+				Item item = Item.getItemFromBlock(block);
+				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(resLoc, "inventory"));
 			}
 		}
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public void registerDyedColorHandler(Block... blocks)
+	public void setModelResourceFor(Item... items)
+	{
+		for (Item item : items)
+		{
+			ResourceLocation resLoc = item.getRegistryName();
+			if (resLoc != null)
+			{
+				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(resLoc, "inventory"));
+			}
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void setModelResourceFor(BlockDyed... blocks)
+	{
+		for (BlockDyed block : blocks)
+		{
+			Item item = Item.getItemFromBlock(block);
+			ResourceLocation resLoc = block.getRegistryName();
+			
+			if (resLoc != null)
+			{
+				for (int i = 0; i < 16; i++)
+				{
+					ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(resLoc,
+							"inventory"));
+				}
+			}
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void registerDyedColorHandlerFor(Block... blocks)
 	{
 		BlockColors blockColors = Minecraft.getMinecraft()
 										   .getBlockColors();
@@ -118,8 +128,9 @@ public class CommonProxy implements Proxy
 		ItemColors itemColors = Minecraft.getMinecraft()
 										 .getItemColors();
 		
-		blockColors.registerBlockColorHandler((s, w, p, t) -> MapColor.func_193558_a(s.getValue(BlockDyed.COLOR))
-				.colorValue, blocks);
+		blockColors.registerBlockColorHandler((s, w, p, t) -> MapColor.func_193558_a(s.getValue(BlockDyed.COLOR)).colorValue,
+				blocks
+		);
 		
 		itemColors.registerItemColorHandler((stack, tintIndex) ->
 		{
@@ -130,7 +141,8 @@ public class CommonProxy implements Proxy
 		}, blocks);
 	}
 	
-	public void registerGrassColorHandler(Block... blocks)
+	@SideOnly(Side.CLIENT)
+	public void registerGrassColorHandlerFor(Block... blocks)
 	{
 		BlockColors blockColors = Minecraft.getMinecraft()
 										   .getBlockColors();
