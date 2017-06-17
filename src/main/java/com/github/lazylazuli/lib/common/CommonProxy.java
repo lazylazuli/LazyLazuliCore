@@ -15,6 +15,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.ColorizerGrass;
+import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -77,11 +79,8 @@ public class CommonProxy implements Proxy
 		ResourceLocation resLoc = block.getRegistryName();
 		if (resLoc != null)
 		{
-			ModelLoader.setCustomModelResourceLocation(
-					Item.getItemFromBlock(block),
-					0,
-					new ModelResourceLocation(resLoc, "inventory")
-			);
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation
+					(resLoc, "inventory"));
 		}
 	}
 	
@@ -91,11 +90,7 @@ public class CommonProxy implements Proxy
 		ResourceLocation resLoc = item.getRegistryName();
 		if (resLoc != null)
 		{
-			ModelLoader.setCustomModelResourceLocation(
-					item,
-					0,
-					new ModelResourceLocation(resLoc, "inventory")
-			);
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(resLoc, "inventory"));
 		}
 	}
 	
@@ -123,20 +118,43 @@ public class CommonProxy implements Proxy
 		ItemColors itemColors = Minecraft.getMinecraft()
 										 .getItemColors();
 		
-		blockColors.registerBlockColorHandler(
-				(s, w, p, t) -> MapColor.func_193558_a(s.getValue(BlockDyed.COLOR)).colorValue,
-				blocks
-		);
+		blockColors.registerBlockColorHandler((s, w, p, t) -> MapColor.func_193558_a(s.getValue(BlockDyed.COLOR))
+				.colorValue, blocks);
 		
-		itemColors.registerItemColorHandler(
-				(stack, tintIndex) ->
-				{
-					Block block = ((ItemBlock) stack.getItem()).getBlock();
-					IBlockState iblockstate = block.getStateFromMeta(stack.getMetadata());
-					
-					return blockColors.colorMultiplier(iblockstate, null, null, tintIndex);
-				}, blocks
-		);
+		itemColors.registerItemColorHandler((stack, tintIndex) ->
+		{
+			Block block = ((ItemBlock) stack.getItem()).getBlock();
+			IBlockState iblockstate = block.getStateFromMeta(stack.getMetadata());
+			
+			return blockColors.colorMultiplier(iblockstate, null, null, tintIndex);
+		}, blocks);
+	}
+	
+	public void registerGrassColorHandler(Block... blocks)
+	{
+		BlockColors blockColors = Minecraft.getMinecraft()
+										   .getBlockColors();
+		
+		ItemColors itemColors = Minecraft.getMinecraft()
+										 .getItemColors();
+		
+		blockColors.registerBlockColorHandler((state, worldIn, pos, tintIndex) ->
+		{
+			if (worldIn != null && pos != null)
+			{
+				return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
+			} else
+			{
+				return ColorizerGrass.getGrassColor(0.5D, 1.0D);
+			}
+		}, blocks);
+		
+		itemColors.registerItemColorHandler((stack, tintIndex) ->
+		{
+			IBlockState iblockstate = ((ItemBlock) stack.getItem()).getBlock()
+																   .getStateFromMeta(stack.getMetadata());
+			return blockColors.colorMultiplier(iblockstate, null, null, tintIndex);
+		}, blocks);
 	}
 	
 	private void registerCreativeTabs()
