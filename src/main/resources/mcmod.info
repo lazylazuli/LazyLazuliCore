@@ -1,10 +1,10 @@
 [
 {
-  "modid": "${modid}",
-  "name": "${modname}",
+  "modid": "lazylazulilib",
+  "name": "Lazy Lazuli Lib",
   "description": "Core library for all Lazy Lazuli mods.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "version": "2.0.0",
+  "mcversion": "1.12",
   "url": "https://minecraft.curseforge.com/projects/lazy-lazuli-lib",
   "authorList": ["LazyLazuli"],
   "useDependencyInformation": true,
