@@ -116,7 +116,7 @@ public class BlockState extends BlockStateContainer.StateImplementation
 	}
 	
 	@Override
-	public boolean isFullyOpaque()
+	public boolean isTopSolid()
 	{
 		return getMaterial().isOpaque() && isFullCube();
 	}
@@ -124,11 +124,11 @@ public class BlockState extends BlockStateContainer.StateImplementation
 	@Override
 	public boolean isSideSolid(IBlockAccess world, BlockPos pos, EnumFacing side)
 	{
-		return isFullyOpaque() && side == EnumFacing.UP || isNormalCube();
+		return (isTopSolid() && side == EnumFacing.UP) || isNormalCube();
 	}
 	
 	@Override
-	public BlockFaceShape func_193401_d(IBlockAccess iBlockAccess, BlockPos pos, EnumFacing side)
+	public BlockFaceShape getBlockFaceShape(IBlockAccess iBlockAccess, BlockPos pos, EnumFacing side)
 	{
 		return isSideSolid(iBlockAccess, pos, side) ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
@@ -344,7 +344,7 @@ public class BlockState extends BlockStateContainer.StateImplementation
 		{
 			AxisAlignedBB axisalignedbb = blockBox.offset(pos);
 			
-			if (entityBox.intersectsWith(axisalignedbb))
+			if (entityBox.intersects(axisalignedbb))
 			{
 				collidingBoxes.add(axisalignedbb);
 			}

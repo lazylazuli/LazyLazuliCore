@@ -76,7 +76,7 @@ public class BlockDyed extends BlockBase
 			@Override
 			public MapColor getMapColor(IBlockAccess blockAccess, BlockPos pos)
 			{
-				return MapColor.func_193558_a(getValue(COLOR));
+				return MapColor.getBlockColor(getValue(COLOR));
 			}
 		};
 	}

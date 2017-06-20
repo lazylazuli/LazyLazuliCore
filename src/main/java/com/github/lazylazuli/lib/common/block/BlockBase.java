@@ -192,9 +192,9 @@ public abstract class BlockBase extends Block
 	}
 	
 	@Override
-	public boolean isFullyOpaque(IBlockState state)
+	public boolean isTopSolid(IBlockState state)
 	{
-		return state.isFullyOpaque();
+		return state.isTopSolid();
 	}
 	
 	@Override
@@ -204,9 +204,10 @@ public abstract class BlockBase extends Block
 	}
 	
 	@Override
-	public BlockFaceShape func_193383_a(IBlockAccess iBlockAccess, IBlockState state, BlockPos pos, EnumFacing side)
+	public BlockFaceShape getBlockFaceShape(IBlockAccess iBlockAccess, IBlockState state, BlockPos pos, EnumFacing
+			side)
 	{
-		return state.func_193401_d(iBlockAccess, pos, side);
+		return state.getBlockFaceShape(iBlockAccess, pos, side);
 	}
 	
 	@Override

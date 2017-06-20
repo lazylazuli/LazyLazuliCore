@@ -129,7 +129,7 @@ public class CommonProxy implements Proxy
 										 .getItemColors();
 		
 		blockColors.registerBlockColorHandler(
-				(s, w, p, t) -> MapColor.func_193558_a(s.getValue(BlockDyed.COLOR)).colorValue,
+				(s, w, p, t) -> MapColor.getBlockColor(s.getValue(BlockDyed.COLOR)).colorValue,
 				blocks
 		);
 		
