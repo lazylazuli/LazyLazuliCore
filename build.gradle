@@ -10,30 +10,9 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-ext {
-	modid = "lazylazulilib"
-	modname = "Lazy Lazuli Lib"
-
-	modfile = "LazyLazuliLib.java"
-
-	mcversion = "1.12"
-	forgeversion = "14.21.0.2331"
-	modversion = "2.0.0"
-
-	getBuildNumber = { ->
-		stdout = new ByteArrayOutputStream()
-		exec {
-			commandLine 'git', 'rev-list', 'master', '--count'
-			standardOutput = stdout
-		}
-		return stdout.toString().trim()
-	}
-	buildnumber = 56
-}
-
-version = "$mcversion-$modversion-$buildnumber"
+version = "1.12-2.0.0-57"
 group = "com.github.lazylazuli.lib"
-archivesBaseName = modid
+archivesBaseName = 'lazylazulilib'
 
 sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
@@ -41,27 +20,15 @@ compileJava {
 }
 
 minecraft {
-	version = "$mcversion-$forgeversion"
+	version = "1.12-14.21.0.2340"
 	runDir = "run"
-
-	mappings = "snapshot_20161220"
-
-	replace '@version@', modversion
-	replace '@mcversion@', project.minecraft.version
-	replaceIn modfile
+	mappings = "snapshot_20170617"
 }
 
 processResources {
 	// this will ensure that this task is redone when the versions change.
 	inputs.property "version", project.version
 	inputs.property "mcversion", project.minecraft.version
-
-	// replace stuff in mcmod.info, nothing else
-	from(sourceSets.main.resources.srcDirs) {
-		include 'mcmod.info'
-
-		expand 'version': modversion, 'mcversion': project.minecraft.version, 'modid': modid, 'modname': modname
-	}
 
 	// copy everything else except the mcmod.info
 	from(sourceSets.main.resources.srcDirs) {
