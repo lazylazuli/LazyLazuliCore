@@ -26,6 +26,8 @@ public class JsonRecipeFactory
 	
 	public JsonRecipeFactory(String path)
 	{
+		if (!path.endsWith("/"))
+			path += "/";
 		this.path = path;
 	}
 	
