@@ -82,10 +82,13 @@ public class JsonRecipeFactory
 		return object;
 	}
 	
-	public void createShapedRecipe(String name, ItemStack result, Object... params)
+	public void createShapedRecipe(String name, String group, ItemStack result, Object... params)
 	{
 		JsonObject json = new JsonObject();
 		json.addProperty("type", "forge:ore_shaped");
+		
+		if (group != null && !group.isEmpty())
+			json.addProperty("group", group);
 		
 		List<String> patternList = new ArrayList<>();
 		
@@ -147,6 +150,11 @@ public class JsonRecipeFactory
 		json.add("result", writeStack(result));
 		
 		write(json, name);
+	}
+	
+	public void createShapedRecipe(String name, ItemStack result, Object... params)
+	{
+		createShapedRecipe(name, null, result, params);
 	}
 	
 	public void createShapelessRecipe(String name, ItemStack result, Object... params)
