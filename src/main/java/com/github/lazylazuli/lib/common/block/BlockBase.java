@@ -33,12 +33,14 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.IWorldNameable;
 import net.minecraft.world.World;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("deprecation")
 @MethodsReturnNonnullByDefault
@@ -67,9 +69,7 @@ public abstract class BlockBase extends Block
 		return new BlockStateContainer(this, getProperties())
 		{
 			@Override
-			protected StateImplementation createState(Block block, ImmutableMap<IProperty<?>, Comparable<?>>
-					properties, @Nullable ImmutableMap<net.minecraftforge.common.property.IUnlistedProperty<?>, java
-					.util.Optional<?>> unlistedProperties)
+			protected StateImplementation createState(Block block, ImmutableMap<IProperty<?>, Comparable<?>> properties, @Nullable ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties)
 			{
 				return createBlockState(properties);
 			}
