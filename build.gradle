@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = "1.12-2.0.0-62"
+version = "1.12-2.0.0-63"
 group = "com.github.lazylazuli.lib"
 archivesBaseName = 'lazylazulilib'
 
@@ -20,9 +20,9 @@ compileJava {
 }
 
 minecraft {
-	version = "1.12-14.21.0.2347"
+	version = "1.12-14.21.0.2375"
 	runDir = "run"
-	mappings = "snapshot_20170617"
+	mappings = "snapshot_20170624"
 }
 
 processResources {

@@ -2,7 +2,6 @@ package com.github.lazylazuli.lib.common.block;
 
 import com.github.lazylazuli.lib.common.block.state.BlockState;
 import com.github.lazylazuli.lib.common.inventory.Stack;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
@@ -34,7 +33,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.IWorldNameable;
 import net.minecraft.world.World;
-import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -69,7 +67,9 @@ public abstract class BlockBase extends Block
 		return new BlockStateContainer(this, getProperties())
 		{
 			@Override
-			protected StateImplementation createState(Block block, ImmutableMap<IProperty<?>, Comparable<?>> properties, @Nullable ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties)
+			protected StateImplementation createState(Block block, ImmutableMap<IProperty<?>, Comparable<?>>
+					properties, @Nullable ImmutableMap<net.minecraftforge.common.property.IUnlistedProperty<?>, java
+					.util.Optional<?>> unlistedProperties)
 			{
 				return createBlockState(properties);
 			}
@@ -355,7 +355,9 @@ public abstract class BlockBase extends Block
 	}
 	
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185908_6_)
+	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
+									  List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean
+												  p_185908_6_)
 	{
 		state.addCollisionBoxToList(worldIn, pos, entityBox, collidingBoxes, entityIn, p_185908_6_);
 	}
