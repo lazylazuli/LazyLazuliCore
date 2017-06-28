@@ -1,4 +1,4 @@
-package com.github.lazylazuli.lib.common.item.crafting;
+package com.github.lazylazuli.lib.common.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
