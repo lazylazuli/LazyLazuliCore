@@ -14,51 +14,47 @@ import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
 public final class InventoryUtils
 {
 	/**
-	 * @return any inventory at the given position including entities
+	 * This checks the position for an inventory. If the block is not a valid inventory then a random entity
+	 * with an
+	 * inventory will be returned. Otherwise, this returns null.
+	 *
+	 * @return Returns an inventory at the given position
 	 */
-	public static IInventory getInventoryAtPosition(World world, double x, double y, double z)
+	public static IInventory getInventoryAtPosition(World world, int x, int y, int z)
 	{
-		IInventory inv = null;
-		int i = MathHelper.floor(x);
-		int j = MathHelper.floor(y);
-		int k = MathHelper.floor(z);
-		BlockPos blockpos = new BlockPos(i, j, k);
-		IBlockState state = world.getBlockState(blockpos);
+		IInventory inventory = null;
+		BlockPos blockPos = new BlockPos(x, y, z);
+		IBlockState state = world.getBlockState(blockPos);
 		Block block = state.getBlock();
 		
 		if (block.hasTileEntity(state))
 		{
-			TileEntity te = world.getTileEntity(blockpos);
+			TileEntity te = world.getTileEntity(blockPos);
 			
 			if (te instanceof IInventory)
 			{
-				inv = (IInventory) te;
+				inventory = (IInventory) te;
 				
-				if (inv instanceof TileEntityChest && block instanceof BlockChest)
+				if (inventory instanceof TileEntityChest && block instanceof BlockChest)
 				{
-					inv = ((BlockChest) block).getContainer(world, blockpos, true);
+					inventory = ((BlockChest) block).getContainer(world, blockPos, true);
 				}
 			}
 		}
 		
-		if (inv == null)
+		if (inventory == null)
 		{
-			List<Entity> list = world.getEntitiesWithinAABB(Entity.class,
-					new AxisAlignedBB(x - 0.5D, y - 0.5D, z - 0.5D, x + 0.5D, y + 0.5D, z + 0.5D),
-					EntitySelectors.HAS_INVENTORY
-			);
-			list.addAll(world.getEntitiesWithinAABB(EntityPlayer.class,
-					new AxisAlignedBB(x - 0.5D, y - 0.5D, z - 0.5D, x + 0.5D, y + 0.5D, z + 0.5D)
-			));
+			List<Entity> list = getEntitiesWithInventories(world, x, y, z);
 			
 			if (!list.isEmpty())
 			{
@@ -66,71 +62,59 @@ public final class InventoryUtils
 				
 				if (entity instanceof EntityPlayer)
 				{
-					inv = ((EntityPlayer) entity).inventory;
+					inventory = ((EntityPlayer) entity).inventory;
 				} else
 				{
-					inv = (IInventory) list.get(world.rand.nextInt(list.size()));
+					inventory = (IInventory) list.get(world.rand.nextInt(list.size()));
 				}
 			}
 		}
 		
-		return inv;
+		return inventory;
 	}
 	
-	public static boolean canExtractItemFromSlot(IInventory inv, ItemStack stack, int index, EnumFacing side)
+	public static IInventory getInventoryAtPosition(World world, double x, double y, double z)
 	{
-		return !(inv instanceof ISidedInventory) || ((ISidedInventory) inv).canExtractItem(index, stack, side);
+		return getInventoryAtPosition(world, (int) x, (int) y, (int) z);
 	}
 	
-	public static boolean isInventoryEmpty(IInventory inv)
+	public static IInventory getInventoryAtPosition(World world, BlockPos pos)
 	{
-		int size = inv.getSizeInventory();
-		
-		for (int i = 0; i < size; ++i)
-		{
-			if (!isInventorySlotEmpty(inv, i))
-			{
-				return false;
-			}
-		}
-		
-		return true;
+		return getInventoryAtPosition(world, pos.getX(), pos.getY(), pos.getZ());
 	}
 	
-	public static boolean isInventoryEmpty(IInventory inv, EnumFacing side)
+	public static List<Entity> getEntitiesWithInventories(World world, int x, int y, int z)
 	{
-		if (inv instanceof ISidedInventory)
-		{
-			ISidedInventory sidedInv = (ISidedInventory) inv;
-			int[] aint = sidedInv.getSlotsForFace(side);
-			
-			for (int i : aint)
-			{
-				if (!isInventorySlotEmpty(inv, i))
-				{
-					return false;
-				}
-			}
-			
-			return true;
-		}
+		AxisAlignedBB aabb = new AxisAlignedBB(x, y, z, x + 1, y + 1, z + 1);
 		
-		return isInventoryEmpty(inv);
+		List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, aabb, EntitySelectors.HAS_INVENTORY);
+		entities.addAll(world.getEntitiesWithinAABB(EntityPlayer.class, aabb));
+		
+		return entities;
 	}
+	
+	public static List<Entity> getEntitiesWithInventories(World world, double x, double y, double z)
+	{
+		return getEntitiesWithInventories(world, (int) x, (int) y, (int) z);
+	}
+	
+	public static List<Entity> getEntitiesWithInventories(World world, BlockPos pos)
+	{
+		return getEntitiesWithInventories(world, pos.getX(), pos.getY(), pos.getZ());
+	}
+	
+	//
 	
 	public static boolean isInventorySlotEmpty(IInventory inv, int index)
 	{
-		return inv.getStackInSlot(index)
-				  .isEmpty();
+		return inv.getStackInSlot(index).isEmpty();
 	}
 	
-	public static boolean isInventoryFull(IInventory inv)
+	public static boolean areInventorySlotsEmpty(IInventory inventory, int... indices)
 	{
-		int size = inv.getSizeInventory();
-		
-		for (int i = 0; i < size; ++i)
+		for (int index : indices)
 		{
-			if (!isInventorySlotFull(inv, i))
+			if (!isInventorySlotEmpty(inventory, index))
 			{
 				return false;
 			}
@@ -139,76 +123,130 @@ public final class InventoryUtils
 		return true;
 	}
 	
-	public static boolean isInventoryFull(IInventory inv, EnumFacing side)
+	public static boolean isInventoryEmpty(IInventory inventory)
 	{
-		if (inv instanceof ISidedInventory)
+		int size = inventory.getSizeInventory();
+		
+		for (int i = 0; i < size; ++i)
 		{
-			ISidedInventory sidedInv = (ISidedInventory) inv;
-			int[] aint = sidedInv.getSlotsForFace(side);
-			
-			for (int i : aint)
+			if (!isInventorySlotEmpty(inventory, i))
 			{
-				if (!isInventorySlotFull(inv, i))
-				{
-					return false;
-				}
+				return false;
 			}
-			
-			return true;
 		}
 		
-		return isInventoryFull(inv);
+		return true;
 	}
 	
-	public static boolean isInventorySlotFull(IInventory inv, int index)
+	public static boolean isInventoryEmpty(IInventory inventory, EnumFacing side)
 	{
-		ItemStack stack = inv.getStackInSlot(index);
-		return !stack.isEmpty() && (stack.getCount() >= Math.min(inv.getInventoryStackLimit(),
+		return !(inventory instanceof ISidedInventory)
+			   ? isInventoryEmpty(inventory)
+			   : areInventorySlotsEmpty(inventory, ((ISidedInventory) inventory).getSlotsForFace(side));
+	}
+	
+	//
+	
+	public static boolean isInventorySlotFull(IInventory inventory, int index)
+	{
+		ItemStack stack = inventory.getStackInSlot(index);
+		return !stack.isEmpty() && (stack.getCount() >= Math.min(inventory.getInventoryStackLimit(),
 				stack.getMaxStackSize()
 		));
 	}
 	
-	public static boolean canInsertItemInSlot(IInventory inv, ItemStack stack, int index, EnumFacing side)
+	public static boolean areInventorySlotsFull(IInventory inventory, int... indices)
 	{
-		return inv.isItemValidForSlot(
-				index,
-				stack
-		) && (!(inv instanceof ISidedInventory) || side != null && ((ISidedInventory) inv).canInsertItem(
-				index,
-				stack,
-				side
-		));
+		for (int index : indices)
+		{
+			if (!isInventorySlotFull(inventory, index))
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean isInventoryFull(IInventory inventory)
+	{
+		int size = inventory.getSizeInventory();
+		
+		for (int i = 0; i < size; ++i)
+		{
+			if (!isInventorySlotFull(inventory, i))
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean isInventoryFull(IInventory inventory, EnumFacing side)
+	{
+		return !(inventory instanceof ISidedInventory)
+			   ? isInventoryFull(inventory)
+			   : areInventorySlotsFull(inventory, ((ISidedInventory) inventory).getSlotsForFace(side));
+	}
+	
+	//
+	
+	public static boolean canExtractItemFromSlot(IInventory inventory, ItemStack stack, int index, @Nullable
+			EnumFacing side)
+	{
+		if (inventory instanceof ISidedInventory)
+		{
+			ISidedInventory sidedInventory = (ISidedInventory) inventory;
+			
+			return side != null && sidedInventory.canExtractItem(index, stack, side);
+		}
+		
+		return true;
+	}
+	
+	public static boolean canInsertItemInSlot(IInventory inventory, ItemStack stack, int index, @Nullable EnumFacing
+			side)
+	{
+		if (inventory instanceof ISidedInventory)
+		{
+			ISidedInventory sidedInventory = (ISidedInventory) inventory;
+			
+			return side != null && sidedInventory.canInsertItem(index, stack, side);
+		}
+		
+		return inventory.isItemValidForSlot(index, stack);
 	}
 	
 	/**
 	 * Attempts to insert stack in any inventory slot.
 	 *
-	 * @param inv   the inventory to insert to
+	 * @param inventory   the inventory to insert to
 	 * @param stack the stack to insert
 	 * @param side  the inventory's side to insert in
 	 *
 	 * @return true if a part or the whole stack was inserted
 	 */
-	public static boolean insertStack(IInventory inv, ItemStack stack, @Nullable EnumFacing side)
+	public static boolean insertStack(IInventory inventory, ItemStack stack, @Nullable EnumFacing side)
 	{
 		boolean stackInserted = false;
 		
-		if (inv instanceof ISidedInventory && side != null)
+		if (inventory instanceof ISidedInventory && side != null)
 		{
-			ISidedInventory isidedinventory = (ISidedInventory) inv;
-			int[] aint = isidedinventory.getSlotsForFace(side);
+			ISidedInventory isidedinventory = (ISidedInventory) inventory;
+			int[] indices = isidedinventory.getSlotsForFace(side);
 			
-			for (int i = 0; i < aint.length && !stack.isEmpty(); ++i)
+			for (int i = 0; i < indices.length && !stack.isEmpty(); ++i)
 			{
-				stackInserted = insertStack(inv, stack, aint[i], side);
+				stackInserted = insertStack(inventory, stack, indices[i], side);
 			}
 		} else
 		{
-			int size = inv.getSizeInventory();
+			int size = inventory.getSizeInventory();
 			
 			for (int i = 0; i < size && !stack.isEmpty(); ++i)
 			{
-				stackInserted = insertStack(inv, stack, i, side);
+				stackInserted = insertStack(inventory, stack, i, side);
 			}
 		}
 		
@@ -216,28 +254,28 @@ public final class InventoryUtils
 	}
 	
 	/**
-	 * @param inv   the inventory to insert to
+	 * @param inventory   the inventory to insert to
 	 * @param stack the stack to insert
 	 * @param index the slot index
 	 * @param side  the inventory's side to insert in
 	 *
 	 * @return true if a part or the whole stack was inserted
 	 */
-	public static boolean insertStack(IInventory inv, ItemStack stack, int index, EnumFacing side)
+	public static boolean insertStack(IInventory inventory, ItemStack stack, int index, EnumFacing side)
 	{
-		ItemStack stackInSlot = inv.getStackInSlot(index);
+		ItemStack stackInSlot = inventory.getStackInSlot(index);
 		boolean stackInserted = false;
 		
-		if (canInsertItemInSlot(inv, stack, index, side))
+		if (canInsertItemInSlot(inventory, stack, index, side))
 		{
 			if (stackInSlot.isEmpty())
 			{
-				inv.setInventorySlotContents(index, stack.copy());
+				inventory.setInventorySlotContents(index, stack.copy());
 				stack.setCount(0);
 				stackInserted = true;
 			} else if (Stack.canCombine(stackInSlot, stack))
 			{
-				int spaceLeft = getRemainingSpaceInSlot(inv, index);
+				int spaceLeft = getRemainingSpaceInSlot(inventory, index);
 				
 				if (spaceLeft > 0)
 				{
@@ -255,15 +293,15 @@ public final class InventoryUtils
 	/**
 	 * Checks how many more items can be stacked on a slot respecting inventory stack limit.
 	 *
-	 * @param inv   the inventory to check
+	 * @param inventory   the inventory to check
 	 * @param index the slot index
 	 *
 	 * @return the amount of space in left in the slot
 	 */
-	public static int getRemainingSpaceInSlot(IInventory inv, int index)
+	public static int getRemainingSpaceInSlot(IInventory inventory, int index)
 	{
-		ItemStack stack = inv.getStackInSlot(index);
+		ItemStack stack = inventory.getStackInSlot(index);
 		
-		return Math.min(stack.getMaxStackSize(), inv.getInventoryStackLimit()) - stack.getCount();
+		return Math.min(stack.getMaxStackSize(), inventory.getInventoryStackLimit()) - stack.getCount();
 	}
 }

@@ -1,9 +1,14 @@
 package com.github.lazylazuli.lib.common.inventory;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public final class Stack
 {
 	public static ItemStack of(Block block)
@@ -45,6 +50,8 @@ public final class Stack
 	{
 		return new ItemStack(item, 1, meta);
 	}
+	
+	//
 	
 	public static boolean canCombine(ItemStack stack1, ItemStack stack2)
 	{
