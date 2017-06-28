@@ -62,8 +62,7 @@ public class JsonRecipeFactory
 	{
 		JsonObject object = new JsonObject();
 		
-		ResourceLocation resourceLocation = stack.getItem()
-												 .getRegistryName();
+		ResourceLocation resourceLocation = stack.getItem().getRegistryName();
 		String s = resourceLocation.getResourceDomain();
 		s += ":";
 		s += resourceLocation.getResourcePath();

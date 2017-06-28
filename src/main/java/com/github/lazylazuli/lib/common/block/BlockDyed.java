@@ -34,8 +34,7 @@ public class BlockDyed extends BlockBase
 	public BlockDyed(Material material, String registryName, String unlocalizedName)
 	{
 		super(material, registryName, unlocalizedName);
-		setDefaultState(getBlockState().getBaseState()
-									   .withProperty(COLOR, EnumDyeColor.WHITE));
+		setDefaultState(getBlockState().getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
 	}
 	
 	@Override
@@ -64,8 +63,7 @@ public class BlockDyed extends BlockBase
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return state.getValue(COLOR)
-					.getMetadata();
+		return state.getValue(COLOR).getMetadata();
 	}
 	
 	@Override

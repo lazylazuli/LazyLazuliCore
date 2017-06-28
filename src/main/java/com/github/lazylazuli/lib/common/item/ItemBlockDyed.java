@@ -33,7 +33,6 @@ public class ItemBlockDyed extends ItemBlockBase
 	
 	public String getUnlocalizedColor(ItemStack stack)
 	{
-		return "color." + EnumDyeColor.byMetadata(stack.getMetadata())
-									  .getName() + ".name";
+		return "color." + EnumDyeColor.byMetadata(stack.getMetadata()).getName() + ".name";
 	}
 }

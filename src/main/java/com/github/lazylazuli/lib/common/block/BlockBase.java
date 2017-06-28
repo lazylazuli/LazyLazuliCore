@@ -69,7 +69,8 @@ public abstract class BlockBase extends Block
 		return new BlockStateContainer(this, getProperties())
 		{
 			@Override
-			protected StateImplementation createState(Block block, ImmutableMap<IProperty<?>, Comparable<?>> properties, @Nullable ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties)
+			protected StateImplementation createState(Block block, ImmutableMap<IProperty<?>, Comparable<?>>
+					properties, @Nullable ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties)
 			{
 				return createBlockState(properties);
 			}
@@ -116,17 +117,13 @@ public abstract class BlockBase extends Block
 	@Override
 	public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
 	{
-		return !worldIn.getBlockState(pos)
-					   .getMaterial()
-					   .blocksMovement();
+		return !worldIn.getBlockState(pos).getMaterial().blocksMovement();
 	}
 	
 	@Override
 	public boolean canSpawnInBlock()
 	{
-		return !getDefaultState().getMaterial()
-								 .isSolid() && !getDefaultState().getMaterial()
-																 .isLiquid();
+		return !getDefaultState().getMaterial().isSolid() && !getDefaultState().getMaterial().isLiquid();
 	}
 	
 	@Override

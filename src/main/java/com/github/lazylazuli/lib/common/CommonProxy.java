@@ -44,11 +44,9 @@ public class CommonProxy implements Proxy
 		{
 			for (Block block : ((BlockRegistry) this).getBlocksForRegistry())
 			{
-				log.debug("\t" + block.getUnlocalizedName()
-									  .substring(5));
+				log.debug("\t" + block.getUnlocalizedName().substring(5));
 				
-				event.getRegistry()
-					 .register(block);
+				event.getRegistry().register(block);
 			}
 		}
 	}
@@ -64,11 +62,9 @@ public class CommonProxy implements Proxy
 		{
 			for (Item item : ((ItemRegistry) this).getItemsForRegistry())
 			{
-				log.debug("\t" + item.getUnlocalizedName()
-									 .substring(5));
+				log.debug("\t" + item.getUnlocalizedName().substring(5));
 				
-				event.getRegistry()
-					 .register(item);
+				event.getRegistry().register(item);
 			}
 		}
 	}
@@ -122,11 +118,9 @@ public class CommonProxy implements Proxy
 	@SideOnly(Side.CLIENT)
 	public void registerDyedColorHandlerFor(Block... blocks)
 	{
-		BlockColors blockColors = Minecraft.getMinecraft()
-										   .getBlockColors();
+		BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
 		
-		ItemColors itemColors = Minecraft.getMinecraft()
-										 .getItemColors();
+		ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
 		
 		blockColors.registerBlockColorHandler(
 				(s, w, p, t) -> MapColor.getBlockColor(s.getValue(BlockDyed.COLOR)).colorValue,
@@ -145,11 +139,9 @@ public class CommonProxy implements Proxy
 	@SideOnly(Side.CLIENT)
 	public void registerGrassColorHandlerFor(Block... blocks)
 	{
-		BlockColors blockColors = Minecraft.getMinecraft()
-										   .getBlockColors();
+		BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
 		
-		ItemColors itemColors = Minecraft.getMinecraft()
-										 .getItemColors();
+		ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
 		
 		blockColors.registerBlockColorHandler((state, worldIn, pos, tintIndex) ->
 		{
@@ -164,8 +156,7 @@ public class CommonProxy implements Proxy
 		
 		itemColors.registerItemColorHandler((stack, tintIndex) ->
 		{
-			IBlockState iblockstate = ((ItemBlock) stack.getItem()).getBlock()
-																   .getStateFromMeta(stack.getMetadata());
+			IBlockState iblockstate = ((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata());
 			return blockColors.colorMultiplier(iblockstate, null, null, tintIndex);
 		}, blocks);
 	}
