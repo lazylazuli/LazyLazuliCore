@@ -11,10 +11,6 @@ public interface CreativeTabRegistry
 {
 	CreativeTabs[] getCreativeTabsForRegistry();
 	
-	Block[] getBlocksForTab(CreativeTabs tab);
-	
-	Item[] getItemsForTab(CreativeTabs tab);
-	
 	static CreativeTabs create(String name, Block block)
 	{
 		return create(name, new ItemStack(block));
