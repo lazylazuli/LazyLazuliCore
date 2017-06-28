@@ -28,7 +28,7 @@ import org.apache.logging.log4j.Logger;
 
 public class CommonProxy implements Proxy
 {
-	private final Logger log;
+	protected final Logger log;
 	
 	public CommonProxy(LazyLazuliMod mod)
 	{
