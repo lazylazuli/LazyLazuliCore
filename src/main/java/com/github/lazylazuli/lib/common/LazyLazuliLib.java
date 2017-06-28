@@ -8,7 +8,7 @@ public final class LazyLazuliLib extends LazyLazuliMod
 {
 	public static final String MODID = "lazylazulilib";
 	public static final String VERSION = "2.0.0";
-	public static final String BUILD = "64";
+	public static final String BUILD = "65";
 	public static final String MCVERSION = "1.12";
 	
 	@Mod.Instance
