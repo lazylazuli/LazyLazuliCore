@@ -14,7 +14,8 @@ public final class LazyLazuliLib extends LazyLazuliMod
 	public static final String VERSION = "2.0.0";
 	public static final String BUILD = "72";
 	
-	@Mod.Instance public static LazyLazuliLib instance;
+	@Mod.Instance
+	public static LazyLazuliLib instance;
 	
 	@Override
 	public String getId()
