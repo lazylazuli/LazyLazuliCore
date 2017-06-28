@@ -1,15 +1,20 @@
 package com.github.lazylazuli.lib.common.util;
 
+import com.github.lazylazuli.lib.common.inventory.Stack;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -73,6 +78,30 @@ public class JsonRecipeFactory
 		return object;
 	}
 	
+	private JsonArray writeWildStack(ItemStack stack)
+	{
+		JsonArray array = new JsonArray();
+		
+		Item item = stack.getItem();
+		if (item.getHasSubtypes())
+		{
+			CreativeTabs tab = item.getCreativeTab();
+			
+			if (tab != null)
+			{
+				NonNullList<ItemStack> list = NonNullList.create();
+				item.getSubItems(item.getCreativeTab(), list);
+				
+				for (ItemStack stack1 : list)
+				{
+					JsonObject object = writeStack(stack1);
+					array.add(object);
+				}
+			}
+		}
+		return array;
+	}
+	
 	private JsonObject writeOre(String name)
 	{
 		JsonObject object = new JsonObject();
@@ -107,7 +136,7 @@ public class JsonRecipeFactory
 				char c = (char) o;
 				o = q.poll();
 				
-				JsonObject ingredient;
+				JsonElement ingredient;
 				if (o instanceof Block)
 				{
 					if (o == Blocks.PLANKS)
@@ -118,7 +147,7 @@ public class JsonRecipeFactory
 						ingredient = writeOre("cobblestone");
 					} else
 					{
-						ingredient = writeStack(new ItemStack((Block) o, 1, 32767));
+						ingredient = writeStack(Stack.of((Block) o));
 					}
 				} else if (o instanceof Item)
 				{
@@ -133,11 +162,18 @@ public class JsonRecipeFactory
 						ingredient = writeOre("gemDiamond");
 					} else
 					{
-						ingredient = writeStack(new ItemStack((Item) o, 1, 32767));
+						ingredient = writeStack(Stack.of((Item) o));
 					}
 				} else
 				{
-					ingredient = writeStack((ItemStack) o);
+					ItemStack stack = (ItemStack) o;
+					if (stack.getMetadata() == OreDictionary.WILDCARD_VALUE)
+					{
+						ingredient = writeWildStack(stack);
+					} else
+					{
+						ingredient = writeStack(stack);
+					}
 				}
 				
 				key.add(Character.toString(c), ingredient);
