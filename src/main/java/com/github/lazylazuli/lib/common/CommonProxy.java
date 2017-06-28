@@ -39,11 +39,13 @@ public class CommonProxy implements Proxy
 	@SubscribeEvent
 	public final void registerBlocks(RegistryEvent.Register<Block> event)
 	{
-		log.info("Registering blocks...");
-		
 		if (this instanceof BlockRegistry)
 		{
-			for (Block block : ((BlockRegistry) this).getBlocksForRegistry())
+			Block[] blocks = ((BlockRegistry) this).getBlocksForRegistry();
+			
+			log.info(String.format("Registering %s blocks", blocks.length));
+			
+			for (Block block : blocks)
 			{
 				log.debug("\t" + block.getUnlocalizedName().substring(5));
 				
@@ -55,10 +57,12 @@ public class CommonProxy implements Proxy
 	@SubscribeEvent
 	public final void registerItems(RegistryEvent.Register<Item> event)
 	{
-		log.info("Registering items...");
-		
 		if (this instanceof ItemRegistry)
 		{
+			Item[] items = ((ItemRegistry) this).getItemsForRegistry();
+			
+			log.info(String.format("Registering %s items", items.length));
+			
 			for (Item item : ((ItemRegistry) this).getItemsForRegistry())
 			{
 				log.debug("\t" + item.getUnlocalizedName().substring(5));
