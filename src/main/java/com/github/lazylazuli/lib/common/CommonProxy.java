@@ -28,17 +28,18 @@ import org.apache.logging.log4j.Logger;
 
 public class CommonProxy implements Proxy
 {
-	public CommonProxy()
+	private final Logger log;
+	
+	public CommonProxy(LazyLazuliMod mod)
 	{
+		this.log = mod.getLogger();
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
 	@SubscribeEvent
 	public final void registerBlocks(RegistryEvent.Register<Block> event)
 	{
-		Logger log = LazyLazuliLib.instance.getLogger();
-		
-		log.debug("Registering blocks...");
+		log.info("Registering blocks...");
 		
 		if (this instanceof BlockRegistry)
 		{
@@ -54,9 +55,7 @@ public class CommonProxy implements Proxy
 	@SubscribeEvent
 	public final void registerItems(RegistryEvent.Register<Item> event)
 	{
-		Logger log = LazyLazuliLib.instance.getLogger();
-		
-		log.debug("Registering items...");
+		log.info("Registering items...");
 		
 		if (this instanceof ItemRegistry)
 		{
@@ -74,8 +73,17 @@ public class CommonProxy implements Proxy
 	{
 		for (Block block : blocks)
 		{
+			log.debug(String.format("\t%s", block));
+			
 			ResourceLocation resLoc = block.getRegistryName();
-			if (resLoc != null)
+			
+			if (resLoc == null)
+			{
+				String name = block.getUnlocalizedName().substring(5);
+				log.warn(String.format("\tNo resource location found for: %s. Skipping model resource creation...",
+						name
+				));
+			} else
 			{
 				Item item = Item.getItemFromBlock(block);
 				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(resLoc, "inventory"));
@@ -89,7 +97,13 @@ public class CommonProxy implements Proxy
 		for (Item item : items)
 		{
 			ResourceLocation resLoc = item.getRegistryName();
-			if (resLoc != null)
+			if (resLoc == null)
+			{
+				String name = item.getUnlocalizedName().substring(5);
+				log.warn(String.format("\tNo resource location found for: %s. Skipping model resource creation...",
+						name
+				));
+			} else
 			{
 				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(resLoc, "inventory"));
 			}
@@ -104,7 +118,13 @@ public class CommonProxy implements Proxy
 			Item item = Item.getItemFromBlock(block);
 			ResourceLocation resLoc = block.getRegistryName();
 			
-			if (resLoc != null)
+			if (resLoc == null)
+			{
+				String name = item.getUnlocalizedName().substring(5);
+				log.warn(String.format("\tNo resource location found for: %s. Skipping model resource creation...",
+						name
+				));
+			} else
 			{
 				for (int i = 0; i < 16; i++)
 				{
@@ -161,25 +181,52 @@ public class CommonProxy implements Proxy
 		}, blocks);
 	}
 	
+	//
+	
 	private void registerCreativeTabs()
 	{
+		for (CreativeTabs tab : CreativeTabs.CREATIVE_TAB_ARRAY)
+		{
+			for (Block block : getBlocksForTab(tab))
+			{
+				block.setCreativeTab(tab);
+			}
+			
+			for (Item item : getItemsForTab(tab))
+			{
+				item.setCreativeTab(tab);
+			}
+		}
+		
 		if (this instanceof CreativeTabRegistry)
 		{
 			CreativeTabRegistry registry = (CreativeTabRegistry) this;
 			for (CreativeTabs tab : registry.getCreativeTabsForRegistry())
 			{
-				for (Block block : registry.getBlocksForTab(tab))
+				for (Block block : getBlocksForTab(tab))
 				{
 					block.setCreativeTab(tab);
 				}
 				
-				for (Item item : registry.getItemsForTab(tab))
+				for (Item item : getItemsForTab(tab))
 				{
 					item.setCreativeTab(tab);
 				}
 			}
 		}
 	}
+	
+	protected Block[] getBlocksForTab(CreativeTabs tab)
+	{
+		return new Block[0];
+	}
+	
+	protected Item[] getItemsForTab(CreativeTabs tab)
+	{
+		return new Item[0];
+	}
+	
+	//
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event)
