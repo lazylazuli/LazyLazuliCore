@@ -17,13 +17,12 @@ public final class LazyLazuliLib extends LazyLazuliMod
 	public static final String BUILD = "78";
 	
 	@Mod.Instance(value = LazyLazuliLib.MODID)
-	public static LazyLazuliLib instance = null;
+	public static LazyLazuliLib instance;
 	
 	@Mod.InstanceFactory
 	public static LazyLazuliLib initializeMod()
 	{
-		LazyLazuliLib mod = new LazyLazuliLib();
-		return mod;
+		return new LazyLazuliLib();
 	}
 	
 	@Override
