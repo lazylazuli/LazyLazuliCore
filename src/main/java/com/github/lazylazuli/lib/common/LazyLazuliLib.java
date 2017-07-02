@@ -2,7 +2,6 @@ package com.github.lazylazuli.lib.common;
 
 import com.github.lazylazuli.lib.common.mod.LazyLazuliMod;
 import com.github.lazylazuli.lib.common.mod.Proxy;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(modid = LazyLazuliLib.MODID,
@@ -24,7 +23,6 @@ public final class LazyLazuliLib extends LazyLazuliMod
 	public static LazyLazuliLib initializeMod()
 	{
 		LazyLazuliLib mod = new LazyLazuliLib();
-		MinecraftForge.EVENT_BUS.register(mod);
 		return mod;
 	}
 	
