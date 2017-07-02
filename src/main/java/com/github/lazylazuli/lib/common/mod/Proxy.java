@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.*;
@@ -91,6 +92,9 @@ public abstract class Proxy
 			event.getRegistry().register(item);
 		}
 	}
+	
+	@SideOnly(Side.CLIENT)
+	protected void registerModels(ModelRegistryEvent event) {}
 	
 	private void registerCreativeTabs()
 	{

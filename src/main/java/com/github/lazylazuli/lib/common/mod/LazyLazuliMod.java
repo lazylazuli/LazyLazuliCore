@@ -2,9 +2,12 @@ package com.github.lazylazuli.lib.common.mod;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,6 +49,17 @@ public abstract class LazyLazuliMod
 	public void registerItems(RegistryEvent.Register<Item> event)
 	{
 		getProxy().registerItems(event);
+	}
+	
+	/**
+	 * Use method annotated with {@link net.minecraftforge.fml.common.Mod.InstanceFactory @Mod.InstanceFactory} to
+	 * register to {@link net.minecraftforge.common.MinecraftForge#EVENT_BUS MinecraftForge.EVENT_BUS}.
+	 */
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void registerModels(ModelRegistryEvent event)
+	{
+		getProxy().registerModels(event);
 	}
 	
 	//
