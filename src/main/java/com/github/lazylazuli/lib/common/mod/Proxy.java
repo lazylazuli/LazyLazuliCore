@@ -25,14 +25,7 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class Proxy
 {
-	protected final Logger log;
-	
-	public Proxy()
-	{
-		log = getMod().getLogger();
-	}
-	
-	protected abstract LazyLazuliMod getMod();
+	protected abstract Logger getLogger();
 	
 	protected Block[] getBlocksForRegistry()
 	{
@@ -70,11 +63,11 @@ public abstract class Proxy
 			return;
 		}
 		
-		log.info(String.format("Registering %s blocks", blocks.length));
+		getLogger().info(String.format("Registering %s blocks", blocks.length));
 		
 		for (Block block : blocks)
 		{
-			log.debug("\t" + block.getRegistryName());
+			getLogger().debug("\t" + block.getRegistryName());
 			
 			event.getRegistry().register(block);
 		}
@@ -89,11 +82,11 @@ public abstract class Proxy
 			return;
 		}
 		
-		log.info(String.format("Registering %s items", items.length));
+		getLogger().info(String.format("Registering %s items", items.length));
 		
 		for (Item item : getItemsForRegistry())
 		{
-			log.debug("\t" + item.getRegistryName());
+			getLogger().debug("\t" + item.getRegistryName());
 			
 			event.getRegistry().register(item);
 		}
@@ -133,7 +126,7 @@ public abstract class Proxy
 	@SideOnly(Side.CLIENT)
 	protected void setModelResourceFor(Block... blocks)
 	{
-		log.info("Setting model resources for blocks");
+		getLogger().info("Setting model resources for blocks");
 		
 		Item[] items = new Item[blocks.length];
 		
@@ -148,7 +141,7 @@ public abstract class Proxy
 	@SideOnly(Side.CLIENT)
 	protected void setModelResourceFor(Item... items)
 	{
-		log.info("Setting model resources for items");
+		getLogger().info("Setting model resources for items");
 		
 		setModelResources(items);
 	}
@@ -162,7 +155,7 @@ public abstract class Proxy
 			if (resLoc == null)
 			{
 				String name = item.getUnlocalizedName().substring(5);
-				log.warn(String.format("\t%s has no registry name. Skipping...", name));
+				getLogger().warn(String.format("\t%s has no registry name. Skipping...", name));
 				continue;
 			}
 			
@@ -179,7 +172,7 @@ public abstract class Proxy
 		if (resLoc == null)
 		{
 			String name = item.getUnlocalizedName().substring(5);
-			log.warn(String.format("\t%s has no registry name. Skipping...", name));
+			getLogger().warn(String.format("\t%s has no registry name. Skipping...", name));
 		}
 		
 		ModelResourceLocation mrl = new ModelResourceLocation(resLoc, "inventory");
