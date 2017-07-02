@@ -1,5 +1,6 @@
 package com.github.lazylazuli.lib.common;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(modid = LazyLazuliLib.MODID,
@@ -14,8 +15,16 @@ public final class LazyLazuliLib extends LazyLazuliMod
 	public static final String VERSION = "2.0.0";
 	public static final String BUILD = "78";
 	
-	@Mod.Instance
-	public static LazyLazuliLib instance;
+	@Mod.Instance(value = LazyLazuliLib.MODID)
+	public static LazyLazuliLib INSTANCE = null;
+	
+	@Mod.InstanceFactory
+	public static LazyLazuliLib initializeMod()
+	{
+		LazyLazuliLib mod = new LazyLazuliLib();
+		MinecraftForge.EVENT_BUS.register(mod);
+		return mod;
+	}
 	
 	@Override
 	public String getId()

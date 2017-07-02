@@ -1,13 +1,21 @@
 package com.github.lazylazuli.lib.common;
 
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public abstract class LazyLazuliMod
 {
-	private final Logger logger = LogManager.getLogger(getId());
+	private final Logger log = LogManager.getLogger(getId());
+	
+	public LazyLazuliMod()
+	{
+		log.info("Creating instance");
+	}
 	
 	public abstract String getId();
 	
@@ -15,11 +23,35 @@ public abstract class LazyLazuliMod
 	
 	public Logger getLogger()
 	{
-		return logger;
+		return log;
+	}
+	
+	//
+	
+	/**
+	 * Use method annotated with {@link net.minecraftforge.fml.common.Mod.InstanceFactory @Mod.InstanceFactory} to
+	 * register to {@link net.minecraftforge.common.MinecraftForge#EVENT_BUS MinecraftForge.EVENT_BUS}.
+	 */
+	@SubscribeEvent
+	public void registerBlocks(RegistryEvent.Register<Block> event)
+	{
+		getProxy().registerBlocks(event);
 	}
 	
 	/**
-	 * Override and annotate with {@link Mod.EventHandler @Mod.EventHandler} to use
+	 * Use method annotated with {@link net.minecraftforge.fml.common.Mod.InstanceFactory @Mod.InstanceFactory} to
+	 * register to {@link net.minecraftforge.common.MinecraftForge#EVENT_BUS MinecraftForge.EVENT_BUS}.
+	 */
+	@SubscribeEvent
+	public void registerItems(RegistryEvent.Register<Item> event)
+	{
+		getProxy().registerItems(event);
+	}
+	
+	//
+	
+	/**
+	 * Override this method and annotate with {@link net.minecraftforge.fml.common.Mod.EventHandler @Mod.EventHandler}
 	 */
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -27,7 +59,7 @@ public abstract class LazyLazuliMod
 	}
 	
 	/**
-	 * Override and annotate with {@link Mod.EventHandler @Mod.EventHandler} to use
+	 * Override this method and annotate with {@link net.minecraftforge.fml.common.Mod.EventHandler @Mod.EventHandler}
 	 */
 	public void init(FMLInitializationEvent event)
 	{
@@ -35,7 +67,7 @@ public abstract class LazyLazuliMod
 	}
 	
 	/**
-	 * Override and annotate with {@link Mod.EventHandler @Mod.EventHandler} to use
+	 * Override this method and annotate with {@link net.minecraftforge.fml.common.Mod.EventHandler @Mod.EventHandler}
 	 */
 	public void postInit(FMLPostInitializationEvent event)
 	{
@@ -43,7 +75,7 @@ public abstract class LazyLazuliMod
 	}
 	
 	/**
-	 * Override and annotate with {@link Mod.EventHandler @Mod.EventHandler} to use
+	 * Override this method and annotate with {@link net.minecraftforge.fml.common.Mod.EventHandler @Mod.EventHandler}
 	 */
 	public void serverAboutToStart(FMLServerAboutToStartEvent event)
 	{
@@ -51,7 +83,7 @@ public abstract class LazyLazuliMod
 	}
 	
 	/**
-	 * Override and annotate with {@link Mod.EventHandler @Mod.EventHandler} to use
+	 * Override this method and annotate with {@link net.minecraftforge.fml.common.Mod.EventHandler @Mod.EventHandler}
 	 */
 	public void serverStarting(FMLServerStartingEvent event)
 	{
@@ -59,7 +91,7 @@ public abstract class LazyLazuliMod
 	}
 	
 	/**
-	 * Override and annotate with {@link Mod.EventHandler @Mod.EventHandler} to use
+	 * Override this method and annotate with {@link net.minecraftforge.fml.common.Mod.EventHandler @Mod.EventHandler}
 	 */
 	public void serverStarted(FMLServerStartedEvent event)
 	{
@@ -67,7 +99,7 @@ public abstract class LazyLazuliMod
 	}
 	
 	/**
-	 * Override and annotate with {@link Mod.EventHandler @Mod.EventHandler} to use
+	 * Override this method and annotate with {@link net.minecraftforge.fml.common.Mod.EventHandler @Mod.EventHandler}
 	 */
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
@@ -75,7 +107,7 @@ public abstract class LazyLazuliMod
 	}
 	
 	/**
-	 * Override and annotate with {@link Mod.EventHandler @Mod.EventHandler} to use
+	 * Override this method and annotate with {@link net.minecraftforge.fml.common.Mod.EventHandler @Mod.EventHandler}
 	 */
 	public void serverStopped(FMLServerStoppedEvent event)
 	{
