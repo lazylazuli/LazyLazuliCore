@@ -1,4 +1,4 @@
-package com.github.lazylazuli.lib.common;
+package com.github.lazylazuli.lib.common.mod;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

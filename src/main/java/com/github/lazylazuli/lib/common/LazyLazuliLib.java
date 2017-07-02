@@ -1,5 +1,7 @@
 package com.github.lazylazuli.lib.common;
 
+import com.github.lazylazuli.lib.common.mod.LazyLazuliMod;
+import com.github.lazylazuli.lib.common.mod.Proxy;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 

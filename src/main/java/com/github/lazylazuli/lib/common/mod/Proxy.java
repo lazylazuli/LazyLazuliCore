@@ -1,4 +1,4 @@
-package com.github.lazylazuli.lib.common;
+package com.github.lazylazuli.lib.common.mod;
 
 import com.github.lazylazuli.lib.common.block.BlockDyed;
 import com.github.lazylazuli.lib.common.inventory.Stack;
